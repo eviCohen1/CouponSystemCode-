@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Timer;
 
 import javax.swing.text.StyledEditorKit.ForegroundAction;
 
@@ -30,14 +31,22 @@ public class Test {
 
 	public static void main(String[] args) throws Exception {
 		
+
+		/************************************Test-threads*************************/
+		
+		   Timer time = new Timer();    // Instantiate Timer Object
+	       DailyCouponExpirationTask dailyCouponExpirationTask = new DailyCouponExpirationTask();  // Instantiate SheduledTask class
+	       time.schedule(dailyCouponExpirationTask, Utils.timeScheduler(), 5000);// Create task repeating every selected time, in millisecond 
+	
+		
 //		Database.getDatabase(); 
 		
-		Company company = new Company(2, "Shoshana", "12345", "oriel@test.com");
-		Coupon coupon = new Coupon(4, "PhoneNote8", Utils.getDate(), Utils.endDate(20),4, CouponType.CAMPING,"wtf", 1251, "image");
-		Customer customer = new Customer(3, "Snir", "1234");
-		Customer customer2 = new Customer(4,"Lior", "1234");
-		Coupon coupon1 = new Coupon(3, "Kobi", Utils.getDate(), Utils.endDate(60),5555, CouponType.HEALTH,"wtf", 1251, "image");
-		Company company2 = new Company(3, "mPrest", "12345", "oriel@test.com"); 
+//		Company company = new Company(2, "Shoshana", "12345", "oriel@test.com");
+//		Coupon coupon = new Coupon(4, "PhoneNote8", Utils.getDate(), Utils.endDate(20),4, CouponType.CAMPING,"wtf", 1251, "image");
+//		Customer customer = new Customer(3, "Snir", "1234");
+//		Customer customer2 = new Customer(4,"Lior", "1234");
+//		Coupon coupon1 = new Coupon(3, "Kobi", Utils.getDate(), Utils.endDate(60),5555, CouponType.HEALTH,"wtf", 1251, "image");
+//		Company company2 = new Company(3, "mPrest", "12345", "oriel@test.com"); 
 		
 	/************************************Admin-Facade-Test************************/	
 //        AdminFacade adminFacade = new AdminFacade(); 
@@ -78,12 +87,12 @@ public class Test {
 //        	adminFacade2.createCustomer(customer2);
 //        }
 		/*********Customer************/
-        CustomerFacade customerFacade = new CustomerFacade(); 
-        customerFacade = (CustomerFacade) CouponSystem.getCouponSystem().login("Evi", "221284", clientType.Customer); 
-        if(customerFacade!=null) {
-        	customerFacade.purchaseCoupon(coupon);
-        	System.out.println(customerFacade.getAllPurchasedCoupons());
-        }
+//        CustomerFacade customerFacade = new CustomerFacade(); 
+//        customerFacade = (CustomerFacade) CouponSystem.getCouponSystem().login("Evi", "221284", clientType.Customer); 
+//        if(customerFacade!=null) {
+//        	customerFacade.purchaseCoupon(coupon);
+//        	System.out.println(customerFacade.getAllPurchasedCoupons());
+//        }
         
         /*********Company************/
 //        CompanyFacade companyFacade = new CompanyFacade(); 

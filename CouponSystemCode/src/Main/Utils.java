@@ -1,6 +1,9 @@
 package Main;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -19,6 +22,25 @@ public class Utils {
     	 LocalDate localDate = LocalDate.now().plusDays(numDays);
     	 Date date = java.sql.Date.valueOf(localDate);
          return date;
+    }
+ 
+    public static Date timeStamp() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
+        Date date = Date.from(instant);
+    	return date;    	
+    }
+    
+   
+    public static Date timeScheduler() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MINUTE, 31);
+        calendar.set(Calendar.HOUR, 10);
+//        calendar.set(Calendar.HOUR_OF_DAY,24); 
+
+        return calendar.getTime();
     }
     
     public static String getDriverData() {
