@@ -321,6 +321,7 @@ public class CouponDBDAO implements CouponDAO {
 			coupon.setMessage(resultSet.getString(7));
 			coupon.setPrice(resultSet.getDouble(8));
 			coupon.setImage(resultSet.getString(9));
+			coupon.setActive(resultSet.getBoolean(10));
 
 			// TODO - Add the coupons list from the ArrayCollection
 		} catch (SQLException e) {
@@ -400,6 +401,9 @@ public class CouponDBDAO implements CouponDAO {
 				coupon.setMessage(resultSet.getString(7));
 				coupon.setPrice(resultSet.getDouble(8));
 				coupon.setImage(resultSet.getString(9));
+				coupon.setActive(resultSet.getBoolean(10));
+				System.out.println(resultSet.getBoolean(10));
+				System.out.println(coupon);
 
 				coupons.add(coupon);
 
@@ -458,6 +462,7 @@ public class CouponDBDAO implements CouponDAO {
 				coupon.setMessage(resultSet.getString(7));
 				coupon.setPrice(resultSet.getDouble(8));
 				coupon.setImage(resultSet.getString(9));
+				coupon.setActive(resultSet.getBoolean(10));
 
 				System.out.println(coupon);
 
@@ -521,6 +526,7 @@ public class CouponDBDAO implements CouponDAO {
 					coupon1.setMessage(resultSet.getString(7));
 					coupon1.setPrice(resultSet.getDouble(8));
 					coupon1.setImage(resultSet.getString(9));
+					coupon1.setActive(resultSet.getBoolean(10));
 					coupons.add(coupon1);
 
 				}
@@ -563,7 +569,7 @@ public class CouponDBDAO implements CouponDAO {
 		}
 
 		// Define the Execute query
-		String sql = "INSERT INTO COUPON (TITLE,START_DATE,END_DATE,AMOUNT,TYPE,MESSAGE,PRICE,IMAGE)  VALUES(?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO COUPON (TITLE,START_DATE,END_DATE,AMOUNT,TYPE,MESSAGE,PRICE,IMAGE,ACTIVE)  VALUES(?,?,?,?,?,?,?,?,?)";
 		String sql2 = " INSERT INTO COMPANY_COUPON (COMP_ID,COUPON_ID) VALUES(?,?)";
 		String sql3 = "SELECT * FROM COUPON";
 		// Set the results from the database
@@ -580,6 +586,7 @@ public class CouponDBDAO implements CouponDAO {
 			pstmt.setString(6, coupon.getMessage());
 			pstmt.setDouble(7, coupon.getPrice());
 			pstmt.setString(8, coupon.getImage());
+			pstmt.setBoolean(9,coupon.getActive());
 			// Execute the query and update
 			pstmt.executeUpdate();
 			// Insert the new coupon to join table COMPANY_COUPON
@@ -628,7 +635,7 @@ public class CouponDBDAO implements CouponDAO {
 		}
 		
 		// Define the Execute query
-		String sql = "INSERT INTO COUPON (TITLE,START_DATE,END_DATE,AMOUNT,TYPE,MESSAGE,PRICE,IMAGE)  VALUES(?,?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO COUPON (TITLE,START_DATE,END_DATE,AMOUNT,TYPE,MESSAGE,PRICE,IMAGE,ACTIVE)  VALUES(?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -640,6 +647,7 @@ public class CouponDBDAO implements CouponDAO {
 			pstmt.setString(6, coupon.getMessage());
 			pstmt.setDouble(7, coupon.getPrice());
 			pstmt.setString(8, coupon.getImage());
+			pstmt.setBoolean(9,coupon.getActive());
 			// Execute the query and update
 			pstmt.executeUpdate();
 

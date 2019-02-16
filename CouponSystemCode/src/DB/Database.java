@@ -99,7 +99,8 @@ public class Database {
 				+ "TYPE varchar(10) not null," 
 				+ "MESSAGE varchar(30) not null,"
 				+ "PRICE double not null,"
-				+ "IMAGE varchar(200) not null)";
+				+ "IMAGE varchar(200) not null,"
+				+ "ACTIVE BOOLEAN NOT NULL)";
 		stmt3.executeUpdate(sql);
 		System.out.println("success:" + sql);
 		} catch (SQLException e) {

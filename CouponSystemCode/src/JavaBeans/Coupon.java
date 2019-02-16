@@ -2,7 +2,7 @@ package JavaBeans;
 import java.util.Date;
 
 /*
- * @Author - Oriel
+ * @Author - Evi
  */
 
 
@@ -19,13 +19,23 @@ public class Coupon {
 	private String message;
 	private double price;
 	private String image;
+	private Boolean active;
 	
 	// CTORS
 	
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		System.out.println(active);
+		this.active = (Boolean) active;
+	}
+
 	public Coupon() {
 	}
 	
-	public Coupon(long id, String title, Date startdate, Date enddate, int amount, CouponType CouponType, String message, double price, String image) {
+	public Coupon(long id, String title, Date startdate, Date enddate, int amount, CouponType CouponType, String message, double price, String image, Boolean active) {
 		this.id = id;
 		this.title = title;
 		this.startDate = startdate;
@@ -35,6 +45,7 @@ public class Coupon {
 		this.message = message;
 		this.price = price;
 		this.image = image;
+		this.active = active ; 
 	}
 	
 	
