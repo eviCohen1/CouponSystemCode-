@@ -26,6 +26,26 @@ import JavaBeans.CouponType;
 import JavaBeans.Customer;
 import Main.Utils;
 
+/**
+ * @author evic
+ *
+ */
+/**
+ * @author evic
+ *
+ */
+/**
+ * @author evic
+ *
+ */
+/**
+ * @author evic
+ *
+ */
+/**
+ * @author evic
+ *
+ */
 public class CustomerDBDAO implements CustomerDAO {
 
 	/**
@@ -60,6 +80,9 @@ public class CustomerDBDAO implements CustomerDAO {
 	}
 
 	/******************************************** Methods *********************************************/
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#createCustomer(JavaBeans.Customer)
+	 */
 	@Override
 	public void createCustomer(Customer customer) throws DBException {
 
@@ -71,7 +94,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		}
 		
 		// Define the Execute query
-		String sql = "INSERT INTO CUSTOMER (CUST_NAME,PASSWORD) VALUES (?,?)";
+		String sql = "INSERT INTO Customer (CUST_NAME,PASSWORD) VALUES (?,?)";
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -103,6 +126,9 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#removeCustomer(JavaBeans.Customer)
+	 */
 	@Override
 	public void removeCustomer(Customer customer) throws DBException {
 	
@@ -152,6 +178,9 @@ public class CustomerDBDAO implements CustomerDAO {
 		JOptionPane.showMessageDialog(frame, "Removed customer " + customer.getCustomerName() + " successfully");
 	}
 
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#removeCustomerCoupons(JavaBeans.Customer)
+	 */
 	public void removeCustomerCoupons(Customer customer) throws DBException {
 		Set<Coupon> allCoupons = new HashSet<Coupon>();
 		allCoupons = getCustomerCoupons(customer);
@@ -207,6 +236,9 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#updateCustomer(JavaBeans.Customer)
+	 */
 	@Override
 	public void updateCustomer(Customer customer) throws DBException {
 
@@ -252,6 +284,9 @@ public class CustomerDBDAO implements CustomerDAO {
 		JOptionPane.showMessageDialog(frame, "Update customer " + customer.getCustomerName() + " successfully");
 	}
 
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#getCustomerById(long)
+	 */
 	public Customer getCustomerById(long id) throws DBException {
 
 		Customer customer = new Customer();
@@ -298,6 +333,9 @@ public class CustomerDBDAO implements CustomerDAO {
 		return customer;
 	}
 
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#getCustomerCoupons(JavaBeans.Customer)
+	 */
 	public Set<Coupon> getCustomerCoupons(Customer customer) throws DBException {
 		Set<Coupon> coupons = new HashSet<Coupon>();
 		ArrayList<Long> couponIDs = new ArrayList<Long>();
@@ -376,6 +414,9 @@ public class CustomerDBDAO implements CustomerDAO {
 		return coupons;
 	}
 
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#getCoupons()
+	 */
 	@Override
 	public Set<Coupon> getCoupons() throws DBException {
 		Set<Coupon> coupons = new HashSet<Coupon>();
@@ -436,12 +477,18 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#login(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public Boolean login(String ccustName, String password) throws DBException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#getAllCustomer()
+	 */
 	@Override
 	public Set<Customer> getAllCustomer() throws DBException {
 
@@ -494,6 +541,9 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#printAllCustmers()
+	 */
 	public void printAllCustmers() throws DBException {
 
 		Customer customer = new Customer();
@@ -544,6 +594,9 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#getCustomer(java.lang.String)
+	 */
 	public Customer getCustomer(String CUST_NAME) throws DBException {
 
 		Customer customer = new Customer();
@@ -595,6 +648,9 @@ public class CustomerDBDAO implements CustomerDAO {
 		return customer;
 	}
 
+	/* (non-Javadoc)
+	 * @see DB.DAO.CustomerDAO#purchaseCoupon(JavaBeans.Coupon, JavaBeans.Customer)
+	 */
 	public void purchaseCoupon(Coupon coupon, Customer customer) throws DBException {
 
 		long idPK = 0;

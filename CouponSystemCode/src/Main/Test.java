@@ -35,7 +35,7 @@ public class Test {
 		Company company = new Company(2, "Shoshana", "12345", "oriel@test.com");
 		Coupon coupon = new Coupon(4, "PhoneNote8", Utils.getDate(), Utils.endDate(20),4, CouponType.CAMPING,"wtf", 1251, "image");
 		Customer customer = new Customer(3, "Snir", "1234");
-		Customer customer2 = new Customer(4,"Evi", "221284");
+		Customer customer2 = new Customer(4,"Lior", "1234");
 		Coupon coupon1 = new Coupon(3, "Kobi", Utils.getDate(), Utils.endDate(60),5555, CouponType.HEALTH,"wtf", 1251, "image");
 		Company company2 = new Company(3, "mPrest", "12345", "oriel@test.com"); 
 		
@@ -72,16 +72,17 @@ public class Test {
 /*********************************************Test-Main****************************/ 
 		/*********Admin**************/
 //		AdminFacade adminFacade2 = new AdminFacade();
-//		adminFacade2 = (AdminFacade) CouponSystem.getCouponSystem().login("admin", "12346", clientType.Admin);
+//		adminFacade2 = (AdminFacade) CouponSystem.getCouponSystem().login("admin", "1234", clientType.Admin);
 //        if ( adminFacade2 != null ) { 
-//        	adminFacade2.createCompany(company);
+////        	adminFacade2.createCompany(company);
 //        	adminFacade2.createCustomer(customer2);
 //        }
 		/*********Customer************/
         CustomerFacade customerFacade = new CustomerFacade(); 
         customerFacade = (CustomerFacade) CouponSystem.getCouponSystem().login("Evi", "221284", clientType.Customer); 
-        if(customerFacade!=null) { 
+        if(customerFacade!=null) {
         	customerFacade.purchaseCoupon(coupon);
+        	System.out.println(customerFacade.getAllPurchasedCoupons());
         }
         
         /*********Company************/
@@ -90,7 +91,7 @@ public class Test {
 //        if(companyFacade!=null) { 
 //        	companyFacade.createCoupon(coupon);
 //        }
-    
+//    
     /****************************Test-PurchasedCoupon*****************************/
 
 //        CustomerFacade customerFacade = new CustomerFacade(); 
