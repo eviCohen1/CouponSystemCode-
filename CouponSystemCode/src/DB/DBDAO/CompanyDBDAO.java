@@ -524,14 +524,13 @@ public class CompanyDBDAO implements CompanyDAO {
 					coupon.setTitle(resultSet.getString(2));
 					coupon.setStartDate((Date) resultSet.getDate(3));
 					coupon.setEndDate((Date) resultSet.getDate(4));
-				
 					coupon.setAmount(resultSet.getInt(5));
 					CouponType type = CouponType.valueOf(resultSet.getString(6)); // Convert String to Enum
 					coupon.setType(type);
 					coupon.setMessage(resultSet.getString(7));
 					coupon.setPrice(resultSet.getDouble(8));
 					coupon.setImage(resultSet.getString(9));
-
+					coupon.setActive(resultSet.getBoolean(10));
 					coupons.add(coupon);
 				}
 

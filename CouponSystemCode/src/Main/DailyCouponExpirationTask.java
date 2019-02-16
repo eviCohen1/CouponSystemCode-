@@ -31,13 +31,11 @@ public class DailyCouponExpirationTask extends TimerTask implements Runnable {
 	@Override
 	public void run() {
 
-		java.util.Date now;
         this.quit  = true ; 
 		try {
 			while (quit) {
-				couponDBDAO.printAllCoupons();
-				now = Utils.timeStamp();
-				System.out.println("Time is :" + now); // Display current time
+				
+				couponDBDAO.updateActiveCoupon();
 				Thread.sleep((long) 1000);		//sleep one second 
 				terminate();   //terminate the task 
 			}

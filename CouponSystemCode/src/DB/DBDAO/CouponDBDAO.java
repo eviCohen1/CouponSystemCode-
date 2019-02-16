@@ -250,7 +250,7 @@ public class CouponDBDAO implements CouponDAO {
 		
 		// create the Execute query
 		PreparedStatement pstms = null;
-		String sqlString = "UPDATE COUPON SET START_DATE = ?, END_DATE = ? , AMOUNT = ? WHERE ID = ? ";
+		String sqlString = "UPDATE COUPON SET START_DATE = ?, END_DATE = ? , AMOUNT = ? , ACTIVE = ? WHERE ID = ? ";
 
 		try {
 			// create PreparedStatement and build the SQL query
@@ -264,7 +264,8 @@ public class CouponDBDAO implements CouponDAO {
 					pstms.setDate(1, (Date) coupon.getStartDate());
 					pstms.setDate(2, (Date) coupon.getEndDate());
 					pstms.setInt(3,coupon.getAmount());
-					pstms.setLong(4, coupon2.getId());
+					pstms.setBoolean(4,coupon.getActive());
+					pstms.setLong(5, coupon2.getId());				
 					pstms.executeUpdate();
 				}
 			}
@@ -286,7 +287,8 @@ public class CouponDBDAO implements CouponDAO {
 			}
 
 		}
-		System.out.println(coupon.getTitle() + " successfully Updated");
+		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
+		JOptionPane.showMessageDialog(frame, "The Coupon " + coupon.getTitle() + " is Updated");
 
 	}
 
@@ -343,6 +345,41 @@ public class CouponDBDAO implements CouponDAO {
 
 		}
 		return coupon;
+	}
+	
+    public void  updateActiveCoupon() throws DBException { 
+		
+		Coupon coupon = new Coupon(); 
+		Set<Coupon> allCoupons = new HashSet<Coupon>(); 
+		
+		allCoupons = getAllCoupouns();
+		Iterator<Coupon> itr = allCoupons.iterator();
+		
+		while (itr.hasNext()) {
+			coupon = itr.next();
+			
+			//Check if the coupon is expired 
+			if(coupon.getStartDate().compareTo(coupon.getEndDate())>0) {
+				
+				coupon.setActive(false);
+				updateCoupon(coupon);
+				
+				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
+				JOptionPane.showMessageDialog(frame, "The Coupon " + coupon.getTitle() + " is Expired");
+			}
+			
+			else { 
+				
+				coupon.setActive(true);
+				updateCoupon(coupon);
+				
+				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
+				JOptionPane.showMessageDialog(frame, "The Coupon " + coupon.getTitle() + " is Valide");
+				
+			}
+			
+		}
+
 	}
 
 	public Coupon getCouponByTitle(String couponName) throws DBException { 
@@ -402,9 +439,6 @@ public class CouponDBDAO implements CouponDAO {
 				coupon.setPrice(resultSet.getDouble(8));
 				coupon.setImage(resultSet.getString(9));
 				coupon.setActive(resultSet.getBoolean(10));
-				System.out.println(resultSet.getBoolean(10));
-				System.out.println(coupon);
-
 				coupons.add(coupon);
 
 			}

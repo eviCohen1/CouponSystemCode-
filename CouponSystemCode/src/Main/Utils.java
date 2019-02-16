@@ -24,11 +24,11 @@ public class Utils {
          return date;
     }
  
-    public static Date timeStamp() {
+    public static LocalDateTime timeStamp() {
+    	
         LocalDateTime localDateTime = LocalDateTime.now();
-        Instant instant = localDateTime.toInstant(ZoneOffset.UTC);
-        Date date = Date.from(instant);
-    	return date;    	
+
+    	return localDateTime;    	
     }
     
    
@@ -36,11 +36,27 @@ public class Utils {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 31);
+        calendar.set(Calendar.MINUTE, 9);
         calendar.set(Calendar.HOUR, 10);
+        
 //        calendar.set(Calendar.HOUR_OF_DAY,24); 
-
+        System.out.println(calendar.getTime());
         return calendar.getTime();
+    }
+    
+    /**
+     * @param minutes
+     * @return
+     * This method convert minutes to milliseconds 
+     */
+    public static long  minToMilliSec(long minutes ) {
+    	
+    	long millisecondes  = 0 ; 
+    	
+    	millisecondes  = minutes* 60000; 
+	
+    	return millisecondes ; 
+    	
     }
     
     public static String getDriverData() {

@@ -57,7 +57,7 @@ public class ConnPool {
 	    tabelResultSet = metaData.getTables(con.getCatalog(), null, "COMPANY", null); 
         if(!tabelResultSet.next()) { 
         	
-        	Database.createTables(con);
+        	Database.createTables();
         }
 		
         con.close();

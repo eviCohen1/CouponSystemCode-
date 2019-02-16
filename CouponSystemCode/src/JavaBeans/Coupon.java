@@ -28,7 +28,6 @@ public class Coupon {
 	}
 
 	public void setActive(Boolean active) {
-		System.out.println(active);
 		this.active = (Boolean) active;
 	}
 
@@ -110,7 +109,7 @@ public class Coupon {
 	public String toString() {
 		return "Coupon [id=" + id + ", title=" + title + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", amount=" + amount + ", couponType=" + type + ", message=" + message + ", price=" + price
-				+ ", image=" + image + "]";
+				+ ", image=" + image + " ,Active= " + active +"]";
 	}
 	
 	

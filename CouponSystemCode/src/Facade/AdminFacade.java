@@ -12,6 +12,7 @@ import javax.swing.plaf.PanelUI;
 
 import DB.DBException;
 import DB.DBDAO.CompanyDBDAO;
+import DB.DBDAO.CouponDBDAO;
 import DB.DBDAO.CustomerDBDAO;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
@@ -33,6 +34,7 @@ public class AdminFacade implements CouponClientFacade {
 	 *****************************************/
 	private CompanyDBDAO compDAO = new CompanyDBDAO();
 	private CustomerDBDAO custDAO = new CustomerDBDAO();
+	private CouponDBDAO coupDAO = new CouponDBDAO(); 
 	private final String name = "admin";
 	private final String pass = "1234";
 
@@ -151,6 +153,12 @@ public class AdminFacade implements CouponClientFacade {
 	public Set<Customer> getAllCustomers() throws Exception {
 
 		return custDAO.getAllCustomer();
+	}
+	
+	public void updateCouponActive () throws DBException { 
+		
+		coupDAO.updateActiveCoupon();
+		
 	}
 
 }

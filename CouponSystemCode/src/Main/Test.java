@@ -34,22 +34,21 @@ public class Test {
 
 		/************************************Test-threads*************************/
 		
-//		   Timer time = new Timer();    // Instantiate Timer Object
-//	       DailyCouponExpirationTask dailyCouponExpirationTask = new DailyCouponExpirationTask();  // Instantiate SheduledTask class
-//	       time.schedule(dailyCouponExpirationTask, Utils.timeScheduler(), 5000);// Create task repeating every selected time, in millisecond 
-	
+		   Timer time = new Timer();    // Instantiate Timer Object
+	       DailyCouponExpirationTask dailyCouponExpirationTask = new DailyCouponExpirationTask();  // Instantiate SheduledTask class
+	       time.schedule(dailyCouponExpirationTask, Utils.timeScheduler(), Utils.minToMilliSec(1440));// Create task repeating every selected time, in millisecond 
 		
 //		Database.getDatabase(); 
 		
 		Company company = new Company(2, "Shoshana", "12345", "oriel@test.com");
-		Coupon coupon = new Coupon(4, "PhoneNote8", Utils.getDate(), Utils.endDate(20),4, CouponType.CAMPING,"wtf", 1251, "image",true);
+		Coupon coupon = new Coupon(4, "PhoneNote8", Utils.getDate(), Utils.endDate(-3),4, CouponType.CAMPING,"wtf", 1251, "image",true);
 		Customer customer = new Customer(3, "Snir", "1234");
 		Customer customer2 = new Customer(4,"Lior", "1234");
 		Coupon coupon1 = new Coupon(3, "Kobi", Utils.getDate(), Utils.endDate(60),5555, CouponType.HEALTH,"wtf", 1251, "image",false);
 		Company company2 = new Company(3, "mPrest", "12345", "oriel@test.com"); 
 		
 	/************************************Admin-Facade-Test************************/	
-        AdminFacade adminFacade = new AdminFacade(); 
+//        AdminFacade adminFacade = new AdminFacade(); 
 //        adminFacade.removeCompany(company);
 //        CouponDBDAO couponDBDAO = new CouponDBDAO(); 
 //        couponDBDAO.removeCoupon(coupon1);
@@ -70,13 +69,13 @@ public class Test {
 //        adminFacade.updateCompany(company2, newPassword, newEmail);
 //        adminFacade.removeCompany(company);
 	/****************************Test-CreateCoupon*********************************/
-		CompanyFacade companyFacade = new CompanyFacade();
-		companyFacade.login(company.getCompName(), company.getPassword(),clientType.Company);
-//        companyFacade.createCoupon(coupon1);
-//        companyFacade.createCoupon(coupon);
-        System.out.println(companyFacade.getAllCoupons()); 
-//		companyFacade.removeCoupon(coupon1);
-//		companyFacade.createCoupon(coupon);
+//		CompanyFacade companyFacade = new CompanyFacade();
+//		companyFacade.login(company.getCompName(), company.getPassword(),clientType.Company);
+////        companyFacade.createCoupon(coupon1);
+////        companyFacade.createCoupon(coupon);
+//        System.out.println(companyFacade.getCouponByType(CouponType.CAMPING)); 
+////		companyFacade.removeCoupon(coupon1);
+////		companyFacade.createCoupon(coupon);
 
 /*********************************************Test-Main****************************/ 
 		/*********Admin**************/
@@ -84,7 +83,7 @@ public class Test {
 //		adminFacade2 = (AdminFacade) CouponSystem.getCouponSystem().login("admin", "1234", clientType.Admin);
 //        if ( adminFacade2 != null ) { 
 ////        	adminFacade2.createCompany(company);
-//        	adminFacade2.createCustomer(customer2);
+//        	adminFacade2.updateCouponActive();
 //        }
 		/*********Customer************/
 //        CustomerFacade customerFacade = new CustomerFacade(); 
@@ -96,9 +95,9 @@ public class Test {
         
         /*********Company************/
 //        CompanyFacade companyFacade = new CompanyFacade(); 
-//        companyFacade = (CompanyFacade) CouponSystem.getCouponSystem().login("Phoebus", "12345",clientType.Company);
+//        companyFacade = (CompanyFacade) CouponSystem.getCouponSystem().login("Shoshana", "12345",clientType.Company);
 //        if(companyFacade!=null) { 
-//        	companyFacade.createCoupon(coupon);
+//        	companyFacade.updateCoupon(coupon);
 //        }
 //    
     /****************************Test-PurchasedCoupon*****************************/
