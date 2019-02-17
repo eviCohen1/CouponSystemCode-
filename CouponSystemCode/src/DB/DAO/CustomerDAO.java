@@ -2,7 +2,7 @@ package DB.DAO;
 import java.util.ArrayList;
 import java.util.Set;
 
-import DB.DBException;
+import Exceptions.DBException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;

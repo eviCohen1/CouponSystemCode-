@@ -3,7 +3,7 @@ package DB.DAO;
 
 import java.util.Set;
 
-import DB.DBException;
+import Exceptions.DBException;
 import JavaBeans.Coupon;
 
 public interface CouponDAO {

@@ -26,6 +26,7 @@ import JavaBeans.Coupon;
 import JavaBeans.CouponType;
 import JavaBeans.Customer;
 import Main.CouponSystem.clientType;
+import Threads.DailyCouponExpirationTask;
 
 public class Test {
 

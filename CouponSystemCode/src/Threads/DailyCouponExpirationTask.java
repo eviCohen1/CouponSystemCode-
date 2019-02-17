@@ -1,4 +1,4 @@
-package Main;
+package Threads;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -9,25 +9,26 @@ import javax.xml.crypto.Data;
 import DB.DBDAO.CouponDBDAO;
 import JavaBeans.Coupon;
 
+/**
+ * @author evic
+ *
+ */
+
 public class DailyCouponExpirationTask extends TimerTask implements Runnable {
 
-	/*****************************************
-	 * Attributes
-	 ************************************/
+	/****************************************** Attributes************************************/
 	public Boolean quit;
 	CouponDBDAO couponDBDAO = new CouponDBDAO();
-	Coupon coupon = new Coupon();
 
-	/*******************************************
-	 * CTOR
-	 ***************************************/
+	/******************************************** CTOR***************************************/
 	public DailyCouponExpirationTask() {
 
 	}
 
-	/*******************************************
-	 * Methods
-	 ************************************/
+	/******************************************** Methods************************************/
+	/* (non-Javadoc)
+	 * @see java.util.TimerTask#run()
+	 */
 	@Override
 	public void run() {
 
@@ -44,7 +45,9 @@ public class DailyCouponExpirationTask extends TimerTask implements Runnable {
 			terminate();
 		}
 	}
-
+	/* (non-Javadoc)
+	 * @see java.util.TimerTask#run()
+	 */
 	public void terminate() {		
 		this.quit = false; 
 		

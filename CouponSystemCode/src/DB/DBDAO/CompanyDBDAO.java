@@ -19,9 +19,9 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 
 import Main.*;
 import DB.ConnPool;
-import DB.DBException;
 import DB.Database;
 import DB.DAO.CompanyDAO;
+import Exceptions.DBException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;

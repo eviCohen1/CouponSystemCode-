@@ -14,9 +14,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import DB.ConnPool;
-import DB.DBException;
 import DB.DBDAO.CompanyDBDAO;
 import DB.DBDAO.CouponDBDAO;
+import Exceptions.DBException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;

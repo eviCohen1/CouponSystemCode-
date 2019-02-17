@@ -11,11 +11,9 @@ import java.util.Set;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-
-
-import DB.DBException;
 import DB.DBDAO.CouponDBDAO;
 import DB.DBDAO.CustomerDBDAO;
+import Exceptions.DBException;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
 import JavaBeans.Customer;

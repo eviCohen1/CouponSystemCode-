@@ -10,10 +10,10 @@ import javax.swing.JOptionPane;
 import javax.swing.plaf.OptionPaneUI;
 import javax.swing.plaf.PanelUI;
 
-import DB.DBException;
 import DB.DBDAO.CompanyDBDAO;
 import DB.DBDAO.CouponDBDAO;
 import DB.DBDAO.CustomerDBDAO;
+import Exceptions.DBException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;

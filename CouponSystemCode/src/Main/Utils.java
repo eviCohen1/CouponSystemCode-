@@ -36,11 +36,10 @@ public class Utils {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 9);
-        calendar.set(Calendar.HOUR, 10);
-        
-//        calendar.set(Calendar.HOUR_OF_DAY,24); 
-        System.out.println(calendar.getTime());
+        calendar.set(Calendar.MINUTE, 5);
+        calendar.set(Calendar.HOUR, 0);   
+//      calendar.set(Calendar.HOUR_OF_DAY,24); 
+ 
         return calendar.getTime();
     }
     

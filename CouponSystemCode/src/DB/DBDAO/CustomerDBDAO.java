@@ -18,8 +18,8 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 import org.omg.CORBA.PRIVATE_MEMBER;
 
 import DB.ConnPool;
-import DB.DBException;
 import DB.DAO.CustomerDAO;
+import Exceptions.DBException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;

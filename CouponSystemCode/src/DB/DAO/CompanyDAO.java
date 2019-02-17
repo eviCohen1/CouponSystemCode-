@@ -3,8 +3,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Set;
 
-import DB.DBException;
-
+import Exceptions.DBException;
 import JavaBeans.*;
 
 public interface CompanyDAO {
