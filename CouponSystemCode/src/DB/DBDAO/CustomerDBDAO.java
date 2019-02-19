@@ -30,30 +30,14 @@ import Main.Utils;
  * @author evic
  *
  */
-/**
- * @author evic
- *
- */
-/**
- * @author evic
- *
- */
-/**
- * @author evic
- *
- */
-/**
- * @author evic
- *
- */
+
 public class CustomerDBDAO implements CustomerDAO {
 
 	/**
 	 * This class implements basic methods between the application level to the DB
 	 * such as C.R.U.D. the logic of the program doesn't implement in this level.
 	 * this level is the only connection to the SQL database,this level uses a
-	 * connection pool as a data access pattern createCustomer removeCustomer
-	 * updateCustomer getCustomer getAllCustomer getCouponByType getCoupons
+	 * connection pool as a data access pattern 
 	 * It Contains: 
 	 * login
 	 * createCustomer
@@ -80,8 +64,9 @@ public class CustomerDBDAO implements CustomerDAO {
 	}
 
 	/******************************************** Methods *********************************************/
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#createCustomer(JavaBeans.Customer)
+	/* Create Customer method  
+	 * This method created customer and insert the attributes to the Customer table 
+	 * Attributes : Customer name, Password 
 	 */
 	@Override
 	public void createCustomer(Customer customer) throws DBException {
@@ -121,13 +106,14 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 
 		}
-
-		System.out.println("Customer " + customer.getCustomerName() + " inserted successfully");
+		
+		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
+		JOptionPane.showMessageDialog(frame, "Insert customer " + customer.getCustomerName() + " successfully");
 
 	}
 
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#removeCustomer(JavaBeans.Customer)
+	/* Remove Customer method 
+	 * This method remove customer from customer table, created a local object in order to get the PK. 
 	 */
 	@Override
 	public void removeCustomer(Customer customer) throws DBException {
@@ -178,14 +164,14 @@ public class CustomerDBDAO implements CustomerDAO {
 		JOptionPane.showMessageDialog(frame, "Removed customer " + customer.getCustomerName() + " successfully");
 	}
 
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#removeCustomerCoupons(JavaBeans.Customer)
+	/* Remove Customer Coupon 
+	 * This method remove all the customer coupon from the join table Customer_Coupon.
 	 */
 	public void removeCustomerCoupons(Customer customer) throws DBException {
 		Set<Coupon> allCoupons = new HashSet<Coupon>();
 		allCoupons = getCustomerCoupons(customer);
 
-		long id;
+		long couponID;
 		
 		// Open a connection from the connection pool class 
 		try {
@@ -193,6 +179,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		} catch (Exception e) {
 			throw new DBException("The Connection is faild");
 		}
+		
 		//Create the SQL query 
 		String sql = "DELETE FROM CUSTOMER_COUPON WHERE COUPON_ID=?";
 		PreparedStatement pstmt = null;
@@ -203,9 +190,8 @@ public class CustomerDBDAO implements CustomerDAO {
 			while (itr.hasNext()) {
 				pstmt = conn.prepareStatement(sql);
 				conn.setAutoCommit(false);// turn off auto-commit
-				id = itr.next().getId();
-				pstmt.setLong(1, id);
-				System.out.println(id);
+				couponID = itr.next().getId();
+				pstmt.setLong(1, couponID);
 				pstmt.executeUpdate();
 				conn.commit();
 			}
@@ -236,8 +222,8 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#updateCustomer(JavaBeans.Customer)
+	/* Update Customer 
+	 * This method update the customer password
 	 */
 	@Override
 	public void updateCustomer(Customer customer) throws DBException {
@@ -284,12 +270,12 @@ public class CustomerDBDAO implements CustomerDAO {
 		JOptionPane.showMessageDialog(frame, "Update customer " + customer.getCustomerName() + " successfully");
 	}
 
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#getCustomerById(long)
+	/* Get Customer By Id 
+	 * This method return a customer object by customer's ID 
 	 */
 	public Customer getCustomerById(long id) throws DBException {
 
-		Customer customer = new Customer();
+		Customer customer = new Customer(); 
 		
 		// Open a connection from the connection pool class 
 		try {
@@ -311,7 +297,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			customer.setId(resultSet.getLong(1));
 			customer.setCustomerName(resultSet.getString(2));
 			customer.setPassword(resultSet.getString(3));
-			// TODO - Add the coupons list from the ArrayCollection
+			
 		} catch (SQLException e) {
 			throw new DBException("update customer failed");
 		} finally {
@@ -333,8 +319,8 @@ public class CustomerDBDAO implements CustomerDAO {
 		return customer;
 	}
 
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#getCustomerCoupons(JavaBeans.Customer)
+	/* Get Customer Coupons
+	 * This method return Set collection of customer coupons  
 	 */
 	public Set<Coupon> getCustomerCoupons(Customer customer) throws DBException {
 		Set<Coupon> coupons = new HashSet<Coupon>();
@@ -414,71 +400,8 @@ public class CustomerDBDAO implements CustomerDAO {
 		return coupons;
 	}
 
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#getCoupons()
-	 */
-	@Override
-	public Set<Coupon> getCoupons() throws DBException {
-		Set<Coupon> coupons = new HashSet<Coupon>();
-
-		// Open a connection
-		// Open a connection from the connection pool class 
-		try {
-			conn =ConnPool.getInstance().getConnection();
-		} catch (Exception e) {
-			throw new DBException("The Connection is faild");
-		}
-		
-		java.sql.Statement stmt = null;
-
-		try {
-			stmt = conn.createStatement();
-			// build The SQL query
-			String sql = "SELECT * FROM COUPON";
-			// Set the results from the database
-			ResultSet resultSet = stmt.executeQuery(sql);
-			// constructor the object, retrieve the attributes from the results
-			while (resultSet.next()) {
-				Coupon coupon = new Coupon();
-				coupon.setId(resultSet.getLong(1));
-				coupon.setTitle(resultSet.getString(2));
-				coupon.setStartDate((Date) resultSet.getDate(3));
-				coupon.setEndDate((Date) resultSet.getDate(4));
-				coupon.setAmount(resultSet.getInt(5));
-				CouponType type = CouponType.valueOf(resultSet.getString(6)); // Convert String to Enum
-				coupon.setType(type);
-				coupon.setMessage(resultSet.getString(7));
-				coupon.setPrice(resultSet.getDouble(8));
-				coupon.setImage(resultSet.getString(9));
-
-				coupons.add(coupon);
-
-			}
-
-		} catch (SQLException e) {
-			throw new DBException("Retriev all the coupons failed");
-		} finally {
-			// finally block used to close resources
-			try {
-				if (stmt != null)
-					ConnPool.getInstance().returnConnection(conn);
-			} catch (Exception e) {
-				throw new DBException("The close connection action faild");
-			}
-			try {
-				if (conn != null)
-					ConnPool.getInstance().returnConnection(conn);
-			} catch (Exception e) {
-				throw new DBException("The close connection action faild");
-			}
-
-		}
-		return coupons;
-
-	}
-
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#login(java.lang.String, java.lang.String)
+	/* Login 
+	 * This method return boolean value if the customer exist  
 	 */
 	@Override
 	public Boolean login(String ccustName, String password) throws DBException {
@@ -486,11 +409,11 @@ public class CustomerDBDAO implements CustomerDAO {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#getAllCustomer()
+	/* Get all Customers
+	 * This method returns Set collection of customer object that contain all the customers 
 	 */
 	@Override
-	public Set<Customer> getAllCustomer() throws DBException {
+	public Set<Customer> getAllCustomers() throws DBException {
 
 		Set<Customer> customers = new HashSet<Customer>();
 
@@ -541,8 +464,8 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#printAllCustmers()
+	/* Print All Customers 
+	 * This method print all the customers 
 	 */
 	public void printAllCustmers() throws DBException {
 
@@ -594,8 +517,8 @@ public class CustomerDBDAO implements CustomerDAO {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#getCustomer(java.lang.String)
+	/* Get customer 
+	 * This method return a customer object by customer name 
 	 */
 	public Customer getCustomer(String CUST_NAME) throws DBException {
 
@@ -648,12 +571,12 @@ public class CustomerDBDAO implements CustomerDAO {
 		return customer;
 	}
 
-	/* (non-Javadoc)
-	 * @see DB.DAO.CustomerDAO#purchaseCoupon(JavaBeans.Coupon, JavaBeans.Customer)
+	/* Purchase Coupon 
+	 * This method insert the coupon's id and the company's id to the join table Coupon_Customer  
 	 */
 	public void purchaseCoupon(Coupon coupon, Customer customer) throws DBException {
 
-		long idPK = 0;
+		long couponID = 0;
 		
 		// Open a connection from the connection pool class 
 		try {
@@ -669,19 +592,19 @@ public class CustomerDBDAO implements CustomerDAO {
 		java.sql.Statement stmt = null;
 		try {
 
-			// Insert the new coupon to join table COMPANY_COUPON
+			//Retrieve the PK of the coupon 
 			stmt = conn.createStatement();
 			ResultSet resultSet = stmt.executeQuery(sql1);
 			while (resultSet.next()) {
 				if (coupon.getTitle().equals(resultSet.getString(2))) {
-					idPK = resultSet.getLong(1);
+					couponID = resultSet.getLong(1);
 				}
 			}
 
-			// constructor the object, retrieve the attributes from the results
+			// Insert the new coupon to join table COMPANY_COUPON
 			pstmt = conn.prepareStatement(sql2);
 			pstmt.setLong(1, customer.getId());
-			pstmt.setLong(2, idPK);
+			pstmt.setLong(2, couponID);
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {

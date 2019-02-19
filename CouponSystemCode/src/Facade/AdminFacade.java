@@ -29,25 +29,22 @@ public class AdminFacade implements CouponClientFacade {
 	 * we will implement the logic of the program. It Contains : Login createCompany
 	 * removeCompany updateCoupon getCoupon getAllCoupons
 	 */
-	/**************************************
-	 * Attributes
-	 *****************************************/
+	/*************************************** Attributes *****************************************/
 	private CompanyDBDAO compDAO = new CompanyDBDAO();
 	private CustomerDBDAO custDAO = new CustomerDBDAO();
 	private CouponDBDAO coupDAO = new CouponDBDAO(); 
 	private final String name = "admin";
 	private final String pass = "1234";
 
-	/****************************************
-	 * CTRO
-	 *********************************************/
+	/***************************************** CTRO *********************************************/
 	public AdminFacade() {
 		// TODO Auto-generated constructor stub
 	}
 
-	/***************************************
-	 * Methods
-	 *******************************************/
+	/**************************************** Methods*******************************************/
+	/* Login
+	 * This Method return a boolean value if the name and the password valid 
+	 */
 	@Override
 	public Boolean login(String name, String password, clientType cType) throws DBException {
 		// TODO Auto-generated method stub
@@ -58,6 +55,10 @@ public class AdminFacade implements CouponClientFacade {
 		return false;
 	}
 
+	/* Create Company 
+	 * This method create company
+	 * Check if the company already exist 
+	 */
 	public void createCompany(Company company) throws Exception {
 
 		Set<Company> allCompanies = new HashSet<Company>();
@@ -80,6 +81,10 @@ public class AdminFacade implements CouponClientFacade {
 
 	}
 
+	/* Remove Company
+	 * This method remove company
+	 * Update the join Table Company_Coupon and remove the company coupons
+	 */
 	public void removeCompany(Company company) throws Exception {
 
 		// Update the join Table Company_Coupon and remove the company coupons
@@ -88,6 +93,10 @@ public class AdminFacade implements CouponClientFacade {
 		compDAO.removeCompany(company);
 	}
 
+	/* Update company 
+	 * This method update the company details except the company name
+	 * Retrieve the company object with the PK by company name
+	 */
 	public void updateCompany(Company company, String newPassword, String newEmail) throws Exception {
 
 		/*Retrieve the company object with the PK by company name*/ 
@@ -100,20 +109,30 @@ public class AdminFacade implements CouponClientFacade {
 		compDAO.updateCompany(company);
 	}
 
+	/* Get Company
+	 * This method return a company by id 
+	 */
 	public Company getCompany(long id) throws Exception {
 
 		return compDAO.getCompany(id);
 
 	}
 
+	/* Get all companies 
+	 * This method return a set collection type Company object, contain all the companies  
+	 * @throws Exception
+	 */
 	public Set<Company> getAllCompanies() throws Exception {
 
 		return compDAO.getAllCompanies();
 	}
 
+	/* Create Customer 
+	 * This method create customer, check if the customer already  exist
+	 */
 	public void createCustomer(Customer customer) throws Exception {
 		Set<Customer> allCustomers = new HashSet<Customer>();
-		allCustomers = custDAO.getAllCustomer();
+		allCustomers = custDAO.getAllCustomers();
 		Iterator<Customer> itrIterator = allCustomers.iterator();
 
 		while (itrIterator.hasNext()) {
@@ -127,9 +146,13 @@ public class AdminFacade implements CouponClientFacade {
 		}
 		custDAO.createCustomer(customer);
 		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-		JOptionPane.showMessageDialog(frame, "Customer " + customer.getCustomerName() + "Created");
+		JOptionPane.showMessageDialog(frame, "Customer " + customer.getCustomerName() + " Created");
 	}
 
+	/* Remove Customer 
+	 * This method remove customer from CUSTOMER table 
+	 * Update Customer coupons in CUSTOMER_COUPON Table
+	 */
 	public void removeCustomer(Customer customer) throws Exception {
 
 		//Update Customer coupons in CUSTOMER_COUPON Table 
@@ -139,25 +162,37 @@ public class AdminFacade implements CouponClientFacade {
 		
 	}
 
+	/* Update Customer 
+	 * This method update customer attributes 
+	 */
 	public void updateCustomer(Customer customer) throws Exception {
 
 		custDAO.updateCustomer(customer);
 	}
 
+	/* Get customer
+	 * This method return customer by customer name
+	 */
 	public Customer getCustomer(String custName) throws Exception {
 
 		return custDAO.getCustomer(custName);
 
 	}
 
+	/* Get All Customers 
+	 * This method return set collection type Customer, cpontian all the customers 
+	 */
 	public Set<Customer> getAllCustomers() throws Exception {
 
-		return custDAO.getAllCustomer();
+		return custDAO.getAllCustomers();
 	}
 	
-	public void updateCouponActive () throws DBException { 
+	/* Update Coupons Expiration
+	 * This method update Coupons expiration 
+	 */
+	public void updateCouponsExpiration() throws DBException { 
 		
-		coupDAO.updateActiveCoupon();
+		coupDAO.updateCouponsExpiration();
 		
 	}
 

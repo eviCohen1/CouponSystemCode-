@@ -36,7 +36,7 @@ public class DailyCouponExpirationTask extends TimerTask implements Runnable {
 		try {
 			while (quit) {
 				
-				couponDBDAO.updateActiveCoupon();
+				couponDBDAO.updateCouponsExpiration();
 				Thread.sleep((long) 1000);		//sleep one second 
 				terminate();   //terminate the task 
 			}

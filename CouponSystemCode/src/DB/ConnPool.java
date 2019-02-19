@@ -20,6 +20,7 @@ import Exceptions.DBException;
 public class ConnPool {
 	
 	/**
+	 * Singleton class, return instance of Connpool
 	 * The Connection pooling is a well-known data access pattern,whose main purpose is to reduce the overhead involved in performing 
 	 * database connections and read/write database operations. 
 	 * a connection pool is, at the most basic level, a database connection cache implementation
@@ -36,8 +37,16 @@ public class ConnPool {
 	private static ConnPool instance;
 	private final int MaxConNumber = 10; 
 	private BlockingQueue<Connection> conQ = new LinkedBlockingDeque<>(MaxConNumber);
+	private java.sql.Statement stmtStatement;
+
 	
 	
+	/** Connection pool constructor 
+	 * Class.forName start the connection to the derby driver
+	 * Check if the tables exist, if not create tables 
+	 * open 10 connections and insert them to the blocking queue  
+	 * @throws Exception
+	 */
 	private ConnPool() throws Exception {
 		
 		try {
@@ -45,35 +54,37 @@ public class ConnPool {
 		}catch (ClassNotFoundException e){
 			e.getMessage();
 		}
+		
 		Connection con = DriverManager.getConnection(Utils.getDBUrl());
 		DatabaseMetaData metaData; 
 		ResultSet tabelResultSet;  
-		java.sql.Statement stmtStatement;
-		
-		/**Retrieves a DatabaseMetaData object that contains metadata about the 
-	 	database to which this Connection object represents a connection**/
+		/*Retrieves the meta data of the tables */
 		metaData = con.getMetaData(); 
 	    stmtStatement = con.createStatement(); 
-	    /**getTables(String catalog, String schemaPattern, String tableNamePattern, String[] types)
-		Retrieves a description of the tables available in the given catalog*/
-	    tabelResultSet = metaData.getTables(con.getCatalog(), null, "COMPANY", null); 
+	    /*Check if the tables exist, in not create tables */
+	    tabelResultSet = metaData.getTables(null,"APP","CUSTOMER",null); 
         if(!tabelResultSet.next()) { 
-        	
+
         	Database.createTables();
         }
-		
         con.close();
+        
+        /*open 10 connections and insert them to the blocking queue  */
 		while (conQ.size() < MaxConNumber) {
 			con = DriverManager.getConnection(Utils.getDBUrl());
 			conQ.offer(con);
 		}
 	}
 	
+	/**
+	 * Get Instance 
+	 * This method create new instance and return it, this class is singleton so the instance type is Connpool 
+	 */
 	public static ConnPool getInstance() throws Exception {
 		
 		if (instance==null){
 			try {
-				instance=new ConnPool();
+				instance = new ConnPool();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -83,6 +94,11 @@ public class ConnPool {
 		return instance;
 	}
 	
+	/*Get Connection 
+	 * This class return connection from the connection pool  
+	 * poll method - get a connection from the connection pool
+	 * @throws DBException
+	 */
 	public synchronized Connection getConnection()throws DBException { 
 		try{
 			Connection c=conQ.poll();
@@ -94,11 +110,19 @@ public class ConnPool {
 		}
 	}
 	
+	/** Return Connection 
+	 *  This method get a connection and return it to the connection pool 
+	 *  offer - return method 
+	 */
 	public synchronized void returnConnection(Connection connection) {
 		conQ.offer(connection); 
 		
 	}
 	
+	/** Close all the connection 
+	 * This method close all the open
+	 * peek method - check if the connection is open 
+	 */
 	public void closeAllConnections() {
 		Connection connection;
 		while (conQ.peek()!=null){
@@ -112,6 +136,9 @@ public class ConnPool {
 		}
 	}
 	
+	/**Print the available connections
+	 * This method print and return all the available connection 
+	 */
 	public int printTheAvilabelConnections() { 	
 		System.out.println("The avilable connections: " + this.conQ.size());
 		return this.conQ.size(); 

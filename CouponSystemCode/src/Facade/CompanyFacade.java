@@ -51,11 +51,13 @@ public class CompanyFacade implements CouponClientFacade {
    
 	/***************************************CTRO*********************************************/
 	public CompanyFacade() {
-		// TODO Auto-generated constructor stub
 	}
 	
-	/**************************************Methods
-	 * @throws DBException *******************************************/
+	/**************************************Methods *******************************************/
+	/* Login
+	 * This method check if the name and the password are valid
+	 * Create a instance locally of company 
+	 */
 	@Override
 	public Boolean login(String name, String password, clientType cType) throws DBException {
 		// TODO Auto-generated method stub
@@ -72,6 +74,10 @@ public class CompanyFacade implements CouponClientFacade {
 		
 	}
 	
+	/* Create Coupon
+	 * This method create company and insert details to company table, check if the company is already exist 
+	 * @throws DBException
+	 */
 	public void createCoupon(Coupon coupon) throws DBException { 
 		
 		Set<Coupon> allCoupons = new HashSet<Coupon>() ; 
@@ -88,14 +94,18 @@ public class CompanyFacade implements CouponClientFacade {
 				JOptionPane.showMessageDialog(frame, "Coupon " + coupon.getTitle() + " Already Exist");
 				return;		
 			}
-			
 		}
 
-		couponDBDAO.createCoupon(coupon, company.getId());	
+		couponDBDAO.createCoupon(coupon, company);	
 		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
 		JOptionPane.showMessageDialog(frame, "Created coupon " + coupon.getTitle() + " successfully");
 	}
 	
+	/**Remove Coupon
+	 * This method remove coupon from Coupon table
+	 * Remove and update Customer_Coupon Table
+	 * Remove and update Company_Coupon table 
+	 */
 	public void removeCoupon(Coupon coupon) throws DBException {
 		
 		//Remove and update Customer_Coupon Table
@@ -107,17 +117,28 @@ public class CompanyFacade implements CouponClientFacade {
 		
 	}
 	
+	/**Update coupon 
+	 * This method update coupon attributes 
+	 */
 	public void updateCoupon(Coupon coupon) throws DBException {
 		
 		couponDBDAO.updateCoupon(coupon); 
 		
 	}
 
-	public Coupon getCoupon(long id ) {
-		return null; 
+	/**Get Coupon
+	 * This method return Coupon object by id 
+	 */
+	public Coupon getCoupon(long id ) throws DBException {
+		
+		return couponDBDAO.getCoupon(id); 
 		
 	}
 	
+	/*Get all coupons 
+	 * This method return set collection type Coupon,return all the coupons 
+	 * @throws DBException
+	 */
 	public Set<Coupon> getAllCoupons() throws DBException 
 
 	{
@@ -128,6 +149,9 @@ public class CompanyFacade implements CouponClientFacade {
 		
 	}
 	
+	/**Get Company 
+	 * Return company by compName
+	 */
 	public Company getCompany(String compName) throws DBException {
 		
 		Company companyLocaly = new Company(); 
@@ -149,6 +173,9 @@ public class CompanyFacade implements CouponClientFacade {
 		
 	}
 
+	/**Get Company Coupons 
+	 * This method return set collection type Coupon, contain company coupons 
+	 */
 	public Set<Coupon> getCompanyCoupons(Company company) throws DBException { 
 		
 		Set<Coupon> allCoupons = new HashSet<Coupon>() ; 
@@ -168,6 +195,9 @@ public class CompanyFacade implements CouponClientFacade {
 	}
 
 
+	/**This method return a set collection type Coupon, contain coupons by type  
+	 * @throws DBException
+	 */
 	public synchronized Set<Coupon> getCouponByType(CouponType type) throws DBException {
 		
 		Set<Coupon> coupons2 = new HashSet<Coupon>();
@@ -196,6 +226,10 @@ public class CompanyFacade implements CouponClientFacade {
 		return coupons2;
 	}
 	
+	/** Get Coupons By type  
+	 * This method return set collection type coupon, contain coupon that lower than the price limit  
+	 * @throws DBException
+	 */
 	public synchronized Set<Coupon> getCouponsByPrice(Double priceLimt) throws DBException {
 		
 		Set<Coupon> coupons2 = new HashSet<Coupon>();
@@ -225,6 +259,10 @@ public class CompanyFacade implements CouponClientFacade {
 		
 	}	
 	
+	/** Get Coupons by Expired Date 
+	 * This method return set collection type coupon, contain coupons that they don't valid 
+	 * @throws DBException
+	 */
 	public synchronized Set<Coupon> getCouponsByExpiredDate(java.util.Date date) throws DBException {
 		
 		Set<Coupon> coupons2 = new HashSet<Coupon>();

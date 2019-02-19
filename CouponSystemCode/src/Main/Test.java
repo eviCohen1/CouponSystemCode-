@@ -35,27 +35,28 @@ public class Test {
 
 		/************************************Test-threads*************************/
 		
-		   Timer time = new Timer();    // Instantiate Timer Object
-	       DailyCouponExpirationTask dailyCouponExpirationTask = new DailyCouponExpirationTask();  // Instantiate SheduledTask class
-	       time.schedule(dailyCouponExpirationTask, Utils.timeScheduler(), Utils.minToMilliSec(1440));// Create task repeating every selected time, in millisecond 
+//		   Timer time = new Timer();    // Instantiate Timer Object
+//	       DailyCouponExpirationTask dailyCouponExpirationTask = new DailyCouponExpirationTask();  // Instantiate SheduledTask class
+//	       time.schedule(dailyCouponExpirationTask, Utils.timeScheduler(), Utils.minToMilliSec(1440));// Create task repeating every selected time, in millisecond 
 		
 //		Database.getDatabase(); 
 		
 		Company company = new Company(2, "Shoshana", "12345", "oriel@test.com");
-		Coupon coupon = new Coupon(4, "PhoneNote8", Utils.getDate(), Utils.endDate(-3),4, CouponType.CAMPING,"wtf", 1251, "image",true);
+		Coupon coupon = new Coupon(4, "PhoneNote8", Utils.getDate(), Utils.endDate(-3),1, CouponType.CAMPING,"wtf", 1251, "image",false);
 		Customer customer = new Customer(3, "Snir", "1234");
 		Customer customer2 = new Customer(4,"Lior", "1234");
-		Coupon coupon1 = new Coupon(3, "Kobi", Utils.getDate(), Utils.endDate(60),5555, CouponType.HEALTH,"wtf", 1251, "image",false);
+//		Coupon coupon1 = new Coupon(3, "Kobi", Utils.getDate(), Utils.endDate(60),5555, CouponType.HEALTH,"wtf", 1251, "image",false);
 		Company company2 = new Company(3, "mPrest", "12345", "oriel@test.com"); 
 		
 	/************************************Admin-Facade-Test************************/	
-//        AdminFacade adminFacade = new AdminFacade(); 
+        AdminFacade adminFacade = new AdminFacade(); 
 //        adminFacade.removeCompany(company);
 //        CouponDBDAO couponDBDAO = new CouponDBDAO(); 
 //        couponDBDAO.removeCoupon(coupon1);
-//        adminFacade.createCustomer(customer);
-//        adminFacade.createCustomer(customer2);
-//        adminFacade.createCompany(company);
+        adminFacade.createCustomer(customer);
+        adminFacade.createCustomer(customer2);
+        adminFacade.createCompany(company);
+        adminFacade.createCompany(company2);
 //        adminFacade.login("Mashav", "12345", clientType.Admin); 
 //        adminFacade.updateCompany(company,"Ee123456","Evi.cohen@gmail.com");
 //       Set<Company> companies = new HashSet<Company>(); 
@@ -72,35 +73,35 @@ public class Test {
 	/****************************Test-CreateCoupon*********************************/
 //		CompanyFacade companyFacade = new CompanyFacade();
 //		companyFacade.login(company.getCompName(), company.getPassword(),clientType.Company);
-////        companyFacade.createCoupon(coupon1);
-////        companyFacade.createCoupon(coupon);
+//        companyFacade.createCoupon(coupon1);
+//        companyFacade.createCoupon(coupon);
 //        System.out.println(companyFacade.getCouponByType(CouponType.CAMPING)); 
-////		companyFacade.removeCoupon(coupon1);
-////		companyFacade.createCoupon(coupon);
+//		companyFacade.removeCoupon(coupon);
+//		companyFacade.createCoupon(coupon);
 
 /*********************************************Test-Main****************************/ 
 		/*********Admin**************/
 //		AdminFacade adminFacade2 = new AdminFacade();
 //		adminFacade2 = (AdminFacade) CouponSystem.getCouponSystem().login("admin", "1234", clientType.Admin);
 //        if ( adminFacade2 != null ) { 
-////        	adminFacade2.createCompany(company);
-//        	adminFacade2.updateCouponActive();
+//        	adminFacade2.createCustomer(customer2);
+//        	adminFacade2.createCustomer(customer);
+//        	
 //        }
 		/*********Customer************/
 //        CustomerFacade customerFacade = new CustomerFacade(); 
-//        customerFacade = (CustomerFacade) CouponSystem.getCouponSystem().login("Evi", "221284", clientType.Customer); 
+//        customerFacade = (CustomerFacade) CouponSystem.getCouponSystem().login("Lior", "1234", clientType.Customer); 
 //        if(customerFacade!=null) {
-//        	customerFacade.purchaseCoupon(coupon);
-//        	System.out.println(customerFacade.getAllPurchasedCoupons());
+//        	customerFacade.purchaseCoupon(coupon);        	
 //        }
+        
         
         /*********Company************/
 //        CompanyFacade companyFacade = new CompanyFacade(); 
 //        companyFacade = (CompanyFacade) CouponSystem.getCouponSystem().login("Shoshana", "12345",clientType.Company);
 //        if(companyFacade!=null) { 
-//        	companyFacade.updateCoupon(coupon);
-//        }
-//    
+//        	companyFacade.createCoupon(coupon);
+    
     /****************************Test-PurchasedCoupon*****************************/
 
 //        CustomerFacade customerFacade = new CustomerFacade(); 

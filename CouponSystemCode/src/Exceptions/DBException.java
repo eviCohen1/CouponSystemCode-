@@ -14,8 +14,7 @@ public class DBException extends Exception{
 	public String toString() {
 		return "DBException [getMessage()=" + getMessage() + ", getLocalizedMessage()=" + getLocalizedMessage()
 				+ ", getCause()=" + getCause() + ", toString()=" + super.toString() + ", fillInStackTrace()="
-				+ fillInStackTrace() + ", getStackTrace()=" + Arrays.toString(getStackTrace())
-				+ ", getClass()=" + getClass() + "]";
+				+ fillInStackTrace() + ", getClass()=" + getClass() + "]";
 	}
 
 

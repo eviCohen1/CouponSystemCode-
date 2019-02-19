@@ -61,8 +61,10 @@ public class CompanyDBDAO implements CompanyDAO {
 	}
 
 	/****************************************** Methods*******************************************/
+	/* Create Company 
+	 * This method create company and insert to company table
+	 */
 	@Override
-
 	public void createCompany(Company company) throws DBException {
 		
 		// Open a connection from the connection pool class 
@@ -71,7 +73,6 @@ public class CompanyDBDAO implements CompanyDAO {
 		} catch (Exception e) {
 			throw new DBException("The Connection is faild");
 		}
-		// Define the Execute query
 		String sql = "INSERT INTO COMPANY (COMP_NAME,PASSWORD,EMAIL)  VALUES(?,?,?)";
 		PreparedStatement pstmt = null;
 		try {
@@ -104,9 +105,15 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 
 		}
+		
+		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
+		JOptionPane.showMessageDialog(frame, "Insert company " + company.getCompName() + " successfully");
 
 	}
 
+	/* Remove Company
+	 * This method remove company from company table
+	 */
 	public void removeCompany(Company company) throws DBException {
 
 		// retrieve the PK by the company name
@@ -122,7 +129,6 @@ public class CompanyDBDAO implements CompanyDAO {
 		// Define the Execute query
 		String sql = "DELETE FROM COMPANY WHERE id=?";
 		PreparedStatement pstmt = null;
-		System.out.println(companyLocal);
 		try {
 			pstmt = conn.prepareStatement(sql);
 			conn.setAutoCommit(false);// turn off auto-commit
@@ -156,11 +162,15 @@ public class CompanyDBDAO implements CompanyDAO {
 		JOptionPane.showMessageDialog(frame, "Removed company " + company.getCompName()  + " successfully");
 	}
 
+	/* Remove Company coupons 
+	 * Remove all the company coupons from the join table
+	 * Remove all the company coupons from coupon table
+	 */
 	public void removeCompanyCoupons (Company company) throws DBException { 
 		
 		Set<Coupon> allCoupons = new HashSet<Coupon>();
 		allCoupons = getCompanyCoupons(company);
-		long id ; 
+		long couponId ; 
 		// Open a connection
 		try {
 			conn = DriverManager.getConnection(Utils.getDBUrl());
@@ -177,8 +187,8 @@ public class CompanyDBDAO implements CompanyDAO {
 			while (itr.hasNext()) {
 				pstmt = conn.prepareStatement(sql);
 				conn.setAutoCommit(false);// turn off auto-commit
-				id =  itr.next().getId();
-				pstmt.setLong(1,id);
+				couponId =  itr.next().getId();
+				pstmt.setLong(1,couponId);
 				pstmt.executeUpdate();
 				conn.commit();
 				
@@ -188,6 +198,9 @@ public class CompanyDBDAO implements CompanyDAO {
 			Iterator<Coupon> itr2 = allCoupons.iterator(); 
 			while(itr2.hasNext()) { 
 				couponDBDAO.removeCoupon(itr2.next());
+				
+				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
+				JOptionPane.showMessageDialog(frame, " Coupon " + itr.next().getTitle() + " removed successfully !!!!");
 			}
 			
 			
@@ -218,6 +231,9 @@ public class CompanyDBDAO implements CompanyDAO {
 			
 	 }
 	
+	/* Update Company
+	 * This method update company attributes, password and Email   
+	 */
 	@Override
 	
 	public void updateCompany(Company company) throws DBException {
@@ -239,7 +255,6 @@ public class CompanyDBDAO implements CompanyDAO {
 			pstms.setString(2, company.getEmail());
 			pstms.setLong(3,company.getId());
 			pstms.executeUpdate();
-			System.out.println(company);
 		} catch (SQLException e) {
 			throw new DBException("update customer failed");
 		} finally {
@@ -260,11 +275,14 @@ public class CompanyDBDAO implements CompanyDAO {
 		}
 		
 		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-		JOptionPane.showMessageDialog(frame, "Updated company " + company.getCompName()  + " successfully");
+		JOptionPane.showMessageDialog(frame, "Company " + company.getCompName()  + " Updated successfully");
 		
 
 	}
 
+	/* Get Company
+	 * This method return company object by id  
+	 */
 	@Override
 	public Company getCompany(long id) throws DBException {
 
@@ -315,6 +333,9 @@ public class CompanyDBDAO implements CompanyDAO {
 		return company;
 	}
 
+	/* Get All Companies 
+	 * This method return Set collection of Company object that contain all the companies  
+	 */
 	@Override
 	public synchronized Set<Company> getAllCompanies() throws DBException {
 
@@ -367,6 +388,9 @@ public class CompanyDBDAO implements CompanyDAO {
 		return companies;
 	}
 
+	/* Print All Companies 
+	 * This method print all the companies 
+	 */
 	public void printAllCompanies() throws DBException {
 
 		Company company = new Company();
@@ -419,12 +443,18 @@ public class CompanyDBDAO implements CompanyDAO {
 
 	}
 
+	/* Login
+	 * This method return boolean value if the company exist 
+	 */
 	@Override
 	public Boolean login(String compName, String password) throws DBException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/* Get company 
+	 * This method return company object by company name 
+	 */
 	public Company getCompany(String comp_name) throws DBException {
 		Company company = new Company();
 		
@@ -479,6 +509,9 @@ public class CompanyDBDAO implements CompanyDAO {
 
 	}
 
+	/* Get Company Coupon 
+	 * This method returns a Set collection of Coupon type, contain all the company coupons 
+	 */
 	@Override
 	public synchronized Set<Coupon> getCompanyCoupons(Company company) throws DBException {
 

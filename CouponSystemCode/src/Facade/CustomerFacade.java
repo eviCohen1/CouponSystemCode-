@@ -1,4 +1,4 @@
-package Facade;
+ package Facade;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -47,6 +47,10 @@ public class CustomerFacade implements CouponClientFacade {
 	}
 
 	/*************************************Methods********************************************/
+	/* Login
+	 * This method check if the name and the password are valid
+	 * Create a instance locally of company 
+	 */
 	@Override
 	public Boolean login(String name, String password, clientType cType) throws DBException {
 		this.CUST_NAME = name;
@@ -60,6 +64,12 @@ public class CustomerFacade implements CouponClientFacade {
 				else return false;
 	}
 
+	/**Purchase Coupon
+	 * This method purchase coupon
+	 * Check if the customer already bought this coupon 
+	 * Check if the coupon is available, amount and the expired date. 
+	 * @throws Exception
+	 */
 	public void purchaseCoupon(Coupon coupon) throws Exception {
 
 		Set<Coupon> allCoupons = new HashSet<Coupon>();
@@ -83,21 +93,27 @@ public class CustomerFacade implements CouponClientFacade {
 		
 		//Check if the coupon is available 
 		coupon1 = couponDBDAO.getCouponByTitle(coupon.getTitle());
-		if( coupon1.getAmount() > 0 ) 
+		if( coupon1.getAmount() > 0 && coupon1.getActive() ) 
 		{ 
 			//Update the amount of the coupon	
-			System.out.println(coupon1);
 			coupon2 = coupon1; 
 			coupon2.setAmount(coupon.getAmount()-1);
 			couponDBDAO.updateCoupon(coupon2);
-			System.out.println(coupon2);
-			
 			customerDBDAO.purchaseCoupon(coupon, customerLocaly);
 		}
+		else { 
+			JFrame frame = new JFrame("JOptionPane showMessageDialog example");
+			JOptionPane.showMessageDialog(frame, "The Coupon " + coupon.getTitle() + " is not availble");
+		}
+		
 		
 
 	}
 
+	/**Get All Purchased Coupons 
+	 * This method returns a set collection type coupon, contain all the Purchased coupons 
+	 * @throws Exception
+	 */
 	public Set<Coupon> getAllPurchasedCoupons() throws Exception {
 
 		Set<Coupon> allCoupons = new HashSet<Coupon>();
@@ -114,6 +130,9 @@ public class CustomerFacade implements CouponClientFacade {
 
 	}
 
+	/**Get all Purchased coupons by type 
+	 * This method return all the purchased coupons by type 
+	 */
 	public Set<Coupon> getAllPurchasedCouponsByType(CouponType cType) throws Exception {
 
 		Set<Coupon> allCoupons = new HashSet<Coupon>();
@@ -147,6 +166,10 @@ public class CustomerFacade implements CouponClientFacade {
 		}
 	}
 
+	/**Get all purchased coupon by price 
+	 * This method return set collection coupon type, contain all purchased coupons by price 
+	 * @throws Exception
+	 */
 	public Set<Coupon> getAllPurchasedCouponsByPrice(double price) throws Exception {
 		//Get all customer coupons 
 		Set<Coupon> allCoupons = new HashSet<Coupon>();
