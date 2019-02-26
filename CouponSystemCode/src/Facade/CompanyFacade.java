@@ -1,6 +1,7 @@
 package Facade;
 
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -20,6 +21,8 @@ import Exceptions.DBException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
+import Logs.Log;
+import Logs.Logger;
 import Main.Utils;
 import Main.CouponSystem.clientType;
 
@@ -59,7 +62,7 @@ public class CompanyFacade implements CouponClientFacade {
 	 * Create a instance locally of company 
 	 */
 	@Override
-	public Boolean login(String name, String password, clientType cType) throws DBException {
+	public Boolean login(String name, String password, clientType cType) throws Exception {
 		// TODO Auto-generated method stub
 		this.compName = name; 
 		this.pass = password;
@@ -67,7 +70,8 @@ public class CompanyFacade implements CouponClientFacade {
 		company = getCompany(compName);
 		//Authentication of the password and company name  
 		if (company.getCompName().equals(this.compName) && company.getPassword().equals(this.pass) && company != null) { 
-			return true; 
+			Logger.log(Log.info("Company" + name + " login to the system"));
+			return true;
 		}
 		else return false;
 		
@@ -78,7 +82,7 @@ public class CompanyFacade implements CouponClientFacade {
 	 * This method create company and insert details to company table, check if the company is already exist 
 	 * @throws DBException
 	 */
-	public void createCoupon(Coupon coupon) throws DBException { 
+	public void createCoupon(Coupon coupon) throws Exception{ 
 		
 		Set<Coupon> allCoupons = new HashSet<Coupon>() ; 
 		allCoupons = getAllCoupons(); 
@@ -92,13 +96,12 @@ public class CompanyFacade implements CouponClientFacade {
 			if (coupon2 instanceof Coupon && coupon2.getTitle().equals(coupon.getTitle())) { 
 				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
 				JOptionPane.showMessageDialog(frame, "Coupon " + coupon.getTitle() + " Already Exist");
+				Logger.log(Log.info("Coupon " + coupon.getTitle() + " Already Exist"));
 				return;		
 			}
 		}
-
 		couponDBDAO.createCoupon(coupon, company);	
-		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-		JOptionPane.showMessageDialog(frame, "Created coupon " + coupon.getTitle() + " successfully");
+		Logger.log(Log.info("Created coupon " + coupon.getTitle() + " successfully"));
 	}
 	
 	/**Remove Coupon
@@ -106,7 +109,7 @@ public class CompanyFacade implements CouponClientFacade {
 	 * Remove and update Customer_Coupon Table
 	 * Remove and update Company_Coupon table 
 	 */
-	public void removeCoupon(Coupon coupon) throws DBException {
+	public void removeCoupon(Coupon coupon) throws Exception {
 		
 		//Remove and update Customer_Coupon Table
 		couponDBDAO.removeCustomerCoupon(coupon);
@@ -120,7 +123,7 @@ public class CompanyFacade implements CouponClientFacade {
 	/**Update coupon 
 	 * This method update coupon attributes 
 	 */
-	public void updateCoupon(Coupon coupon) throws DBException {
+	public void updateCoupon(Coupon coupon) throws Exception {
 		
 		couponDBDAO.updateCoupon(coupon); 
 		
@@ -129,7 +132,7 @@ public class CompanyFacade implements CouponClientFacade {
 	/**Get Coupon
 	 * This method return Coupon object by id 
 	 */
-	public Coupon getCoupon(long id ) throws DBException {
+	public Coupon getCoupon(long id ) throws Exception {
 		
 		return couponDBDAO.getCoupon(id); 
 		
@@ -139,7 +142,7 @@ public class CompanyFacade implements CouponClientFacade {
 	 * This method return set collection type Coupon,return all the coupons 
 	 * @throws DBException
 	 */
-	public Set<Coupon> getAllCoupons() throws DBException 
+	public Set<Coupon> getAllCoupons() throws Exception 
 
 	{
 		Set<Coupon> allCoupons = new HashSet<Coupon>(); 
@@ -152,7 +155,7 @@ public class CompanyFacade implements CouponClientFacade {
 	/**Get Company 
 	 * Return company by compName
 	 */
-	public Company getCompany(String compName) throws DBException {
+	public Company getCompany(String compName) throws Exception {
 		
 		Company companyLocaly = new Company(); 
 		Set<Company> allCompanies = new HashSet<Company>() ; 
@@ -176,7 +179,7 @@ public class CompanyFacade implements CouponClientFacade {
 	/**Get Company Coupons 
 	 * This method return set collection type Coupon, contain company coupons 
 	 */
-	public Set<Coupon> getCompanyCoupons(Company company) throws DBException { 
+	public Set<Coupon> getCompanyCoupons(Company company) throws Exception { 
 		
 		Set<Coupon> allCoupons = new HashSet<Coupon>() ; 
 		allCoupons =companyDBDAO.getCompanyCoupons(company);
@@ -188,7 +191,8 @@ public class CompanyFacade implements CouponClientFacade {
 				else 
 				{ 
 					JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-					JOptionPane.showMessageDialog(frame, "To a comapny, " + company.getCompName() + " hasn't coupons"); 
+					JOptionPane.showMessageDialog(frame, "To a comapny, " + company.getCompName() + " hasn't coupons");
+					Logger.log(Log.info("To a comapny, " + company.getCompName() + " hasn't coupons"));
 					return null;
 				}
 		
@@ -198,7 +202,7 @@ public class CompanyFacade implements CouponClientFacade {
 	/**This method return a set collection type Coupon, contain coupons by type  
 	 * @throws DBException
 	 */
-	public synchronized Set<Coupon> getCouponByType(CouponType type) throws DBException {
+	public synchronized Set<Coupon> getCouponByType(CouponType type) throws Exception {
 		
 		Set<Coupon> coupons2 = new HashSet<Coupon>();
 		Set<Coupon> coupons = new HashSet<Coupon>();
@@ -220,6 +224,7 @@ public class CompanyFacade implements CouponClientFacade {
 			
 					JFrame frame = new JFrame("JOptionPane showMessageDialog example");
 					JOptionPane.showMessageDialog(frame, "To comapny, " + company.getCompName() + " hasn't coupons in type" +type.name()); 
+					Logger.log(Log.info("To comapny, " + company.getCompName() + " hasn't coupons in type" +type.name()));
 					return null;
 			}
 
@@ -230,7 +235,7 @@ public class CompanyFacade implements CouponClientFacade {
 	 * This method return set collection type coupon, contain coupon that lower than the price limit  
 	 * @throws DBException
 	 */
-	public synchronized Set<Coupon> getCouponsByPrice(Double priceLimt) throws DBException {
+	public synchronized Set<Coupon> getCouponsByPrice(Double priceLimt) throws Exception {
 		
 		Set<Coupon> coupons2 = new HashSet<Coupon>();
 		Set<Coupon> coupons = new HashSet<Coupon>();
@@ -252,6 +257,7 @@ public class CompanyFacade implements CouponClientFacade {
 				
 				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
 				JOptionPane.showMessageDialog(frame, "To comapny , " + company.getCompName() + " hasn't coupons that cost " + priceLimt ); 
+				Logger.log(Log.info("To comapny , " + company.getCompName() + " hasn't coupons that cost " + priceLimt ));
 				return null;
 		}
 
@@ -263,7 +269,7 @@ public class CompanyFacade implements CouponClientFacade {
 	 * This method return set collection type coupon, contain coupons that they don't valid 
 	 * @throws DBException
 	 */
-	public synchronized Set<Coupon> getCouponsByExpiredDate(java.util.Date date) throws DBException {
+	public synchronized Set<Coupon> getCouponsByExpiredDate(java.util.Date date) throws Exception {
 		
 		Set<Coupon> coupons2 = new HashSet<Coupon>();
 		Set<Coupon> coupons = new HashSet<Coupon>();
@@ -285,6 +291,7 @@ public class CompanyFacade implements CouponClientFacade {
 				
 				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
 				JOptionPane.showMessageDialog(frame, "To comapny , " + company.getCompName() + " hasn't coupons before date" + date ); 
+				Logger.log(Log.info("To comapny , " + company.getCompName() + " hasn't coupons before date" + date ));
 				return null;
 		}
 

@@ -14,6 +14,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
 import Exceptions.DBException;
+import Logs.Log;
+import Logs.Logger;
 
 
 
@@ -66,6 +68,7 @@ public class ConnPool {
         if(!tabelResultSet.next()) { 
 
         	Database.createTables();
+        	Logger.log(Log.info("Creat Tables successfully"));
         }
         con.close();
         

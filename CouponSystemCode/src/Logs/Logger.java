@@ -1,9 +1,11 @@
 package Logs;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 
 import DB.ConnPool;
+import Main.Utils;
 
 public class Logger {
 	
@@ -16,16 +18,25 @@ public class Logger {
 		this.connPool = connPool;
 	} 
 	
-	
-	public static void log ( Log log ) { 
+	public Logger() { 
 		
-		//TODO write the log to SUMO logic 
 	}
 	
-	public ArrayList<Log> getLogs(){
+	
+	public static void log ( String log ) throws IOException { 
+		
+		//TODO write the log to SUMO logic 
+		Utils.writeLogFile(log);
+	}
+	
+	public void getLogs() throws IOException{
 
-        //TODO retrieve all the logs from the cloud 
-		return null;
+		//TODO retrieve all the logs from the cloud 
+		
+		ArrayList<String> logs = new ArrayList<String>(); 
+        String rowLogs = Utils.readLogFile();
+        System.out.println(rowLogs);
+
 		 
 	}
 	

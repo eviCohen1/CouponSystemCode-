@@ -8,6 +8,8 @@ import javax.xml.crypto.Data;
 
 import DB.DBDAO.CouponDBDAO;
 import JavaBeans.Coupon;
+import Logs.Log;
+import Logs.Logger;
 
 /**
  * @author evic
@@ -19,6 +21,7 @@ public class DailyCouponExpirationTask extends TimerTask implements Runnable {
 	/****************************************** Attributes************************************/
 	public Boolean quit;
 	CouponDBDAO couponDBDAO = new CouponDBDAO();
+	Logger logger = new Logger(); 
 
 	/******************************************** CTOR***************************************/
 	public DailyCouponExpirationTask() {
@@ -39,6 +42,7 @@ public class DailyCouponExpirationTask extends TimerTask implements Runnable {
 				couponDBDAO.updateCouponsExpiration();
 				Thread.sleep((long) 1000);		//sleep one second 
 				terminate();   //terminate the task 
+				Logger.log(Log.info("Daily Task, update Coupons expiration "));
 			}
 		} catch (Exception e) {
 			System.out.println("error running thread " + e.getMessage());

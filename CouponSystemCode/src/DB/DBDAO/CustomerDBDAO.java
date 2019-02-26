@@ -1,6 +1,7 @@
 package DB.DBDAO;
 
 import java.beans.Statement;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -24,6 +25,8 @@ import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
 import JavaBeans.Customer;
+import Logs.Log;
+import Logs.Logger;
 import Main.Utils;
 
 /**
@@ -63,13 +66,14 @@ public class CustomerDBDAO implements CustomerDAO {
 		// TODO Auto-generated constructor stub
 	}
 
-	/******************************************** Methods *********************************************/
+	/******************************************** Methods 
+	 * @throws IOException *********************************************/
 	/* Create Customer method  
 	 * This method created customer and insert the attributes to the Customer table 
 	 * Attributes : Customer name, Password 
 	 */
 	@Override
-	public void createCustomer(Customer customer) throws DBException {
+	public void createCustomer(Customer customer) throws Exception{
 
 		// Open a connection from the connection pool class 
 		try {
@@ -107,8 +111,7 @@ public class CustomerDBDAO implements CustomerDAO {
 
 		}
 		
-		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-		JOptionPane.showMessageDialog(frame, "Insert customer " + customer.getCustomerName() + " successfully");
+		Logger.log(Log.info("Insert customer " + customer.getCustomerName() + " successfully"));
 
 	}
 
@@ -116,7 +119,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	 * This method remove customer from customer table, created a local object in order to get the PK. 
 	 */
 	@Override
-	public void removeCustomer(Customer customer) throws DBException {
+	public void removeCustomer(Customer customer) throws Exception {
 	
 		// retrieve the PK by the customer name
 		Customer customerLocaly = new Customer() ; 
@@ -160,14 +163,14 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 
 		}
-		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-		JOptionPane.showMessageDialog(frame, "Removed customer " + customer.getCustomerName() + " successfully");
+
+		Logger.log(Log.info("Removed customer " + customer.getCustomerName() + " successfully"));
 	}
 
 	/* Remove Customer Coupon 
 	 * This method remove all the customer coupon from the join table Customer_Coupon.
 	 */
-	public void removeCustomerCoupons(Customer customer) throws DBException {
+	public void removeCustomerCoupons(Customer customer) throws Exception {
 		Set<Coupon> allCoupons = new HashSet<Coupon>();
 		allCoupons = getCustomerCoupons(customer);
 
@@ -219,6 +222,8 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 
 		}
+		
+		Logger.log(Log.info("Removed customer " + customer.getCustomerName()+ " coupons successfully"));
 
 	}
 
@@ -226,7 +231,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	 * This method update the customer password
 	 */
 	@Override
-	public void updateCustomer(Customer customer) throws DBException {
+	public void updateCustomer(Customer customer) throws Exception {
 
 		// retrieve the customer details from DB 
 		Customer customerLocaly = new Customer() ; 
@@ -266,14 +271,14 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 
 		}
-		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-		JOptionPane.showMessageDialog(frame, "Update customer " + customer.getCustomerName() + " successfully");
+
+		Logger.log(Log.info("Update customer " + customer.getCustomerName() + " successfully"));
 	}
 
 	/* Get Customer By Id 
 	 * This method return a customer object by customer's ID 
 	 */
-	public Customer getCustomerById(long id) throws DBException {
+	public Customer getCustomerById(long id) throws Exception {
 
 		Customer customer = new Customer(); 
 		
@@ -316,13 +321,15 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 
 		}
+		
+		Logger.log(Log.info("Get customer " + customer.getCustomerName() + " by ID successfully"));
 		return customer;
 	}
 
 	/* Get Customer Coupons
 	 * This method return Set collection of customer coupons  
 	 */
-	public Set<Coupon> getCustomerCoupons(Customer customer) throws DBException {
+	public Set<Coupon> getCustomerCoupons(Customer customer) throws Exception {
 		Set<Coupon> coupons = new HashSet<Coupon>();
 		ArrayList<Long> couponIDs = new ArrayList<Long>();
 
@@ -397,6 +404,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 		}
 
+		Logger.log(Log.info("Get all customer " + customer.getCustomerName() + " coupons successfully"));
 		return coupons;
 	}
 
@@ -404,7 +412,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	 * This method return boolean value if the customer exist  
 	 */
 	@Override
-	public Boolean login(String ccustName, String password) throws DBException {
+	public Boolean login(String ccustName, String password) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -413,7 +421,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	 * This method returns Set collection of customer object that contain all the customers 
 	 */
 	@Override
-	public Set<Customer> getAllCustomers() throws DBException {
+	public Set<Customer> getAllCustomers() throws Exception {
 
 		Set<Customer> customers = new HashSet<Customer>();
 
@@ -460,6 +468,8 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 
 		}
+		
+		Logger.log(Log.info("Get all customers successfully"));
 		return customers;
 
 	}
@@ -467,7 +477,7 @@ public class CustomerDBDAO implements CustomerDAO {
 	/* Print All Customers 
 	 * This method print all the customers 
 	 */
-	public void printAllCustmers() throws DBException {
+	public void printAllCustmers() throws Exception {
 
 		Customer customer = new Customer();
 
@@ -514,13 +524,15 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 
 		}
+		
+		Logger.log(Log.info("Print all customer successfully"));
 
 	}
 
 	/* Get customer 
 	 * This method return a customer object by customer name 
 	 */
-	public Customer getCustomer(String CUST_NAME) throws DBException {
+	public Customer getCustomer(String CUST_NAME) throws Exception {
 
 		Customer customer = new Customer();
 		
@@ -568,13 +580,14 @@ public class CustomerDBDAO implements CustomerDAO {
 			}
 
 		}
+		Logger.log(Log.info("Get customer "+  customer.getCustomerName() + " successfully"));
 		return customer;
 	}
 
 	/* Purchase Coupon 
 	 * This method insert the coupon's id and the company's id to the join table Coupon_Customer  
 	 */
-	public void purchaseCoupon(Coupon coupon, Customer customer) throws DBException {
+	public void purchaseCoupon(Coupon coupon, Customer customer) throws Exception {
 
 		long couponID = 0;
 		
@@ -627,8 +640,7 @@ public class CustomerDBDAO implements CustomerDAO {
 
 		}
 		
-	    JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-	    JOptionPane.showMessageDialog(frame, "Inserted coupon " + coupon.getTitle()  + " successfully");
+	    Logger.log(Log.info("For Customer " +  customer.getCustomerName() +  " the purchase coupon process" + coupon.getTitle()  + " succeed"));
 	}
 
 }

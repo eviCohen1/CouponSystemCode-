@@ -17,6 +17,8 @@ import Exceptions.DBException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
+import Logs.Log;
+import Logs.Logger;
 import Main.CouponSystem.clientType;
 
 
@@ -35,6 +37,7 @@ public class AdminFacade implements CouponClientFacade {
 	private CouponDBDAO coupDAO = new CouponDBDAO(); 
 	private final String name = "admin";
 	private final String pass = "1234";
+	Logger logger = new Logger (); 
 
 	/***************************************** CTRO *********************************************/
 	public AdminFacade() {
@@ -64,21 +67,19 @@ public class AdminFacade implements CouponClientFacade {
 		Set<Company> allCompanies = new HashSet<Company>();
 		allCompanies = compDAO.getAllCompanies();
 		Iterator<Company> itr = allCompanies.iterator();
-
+        System.out.println(company);
 		while (itr.hasNext()) {
 			Company company2 = new Company();
 			company2 = (Company) itr.next();
-			if (company2 instanceof Company && company2.getCompName().equals(company.getCompName())) {
-				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-				JOptionPane.showMessageDialog(frame, "Company " + company.getCompName() + " Already Exist");
+			if (company2 instanceof Company && company2.getCompName().equals(company.getCompName())) { 	
+				Logger.log(Log.info("Company " + company.getCompName() + " Already Exist"));
+				
 				return;
 			}
 
 		}
 		compDAO.createCompany(company);
-		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-		JOptionPane.showMessageDialog(frame, "Company " + company.getCompName() + " Created");
-
+		Logger.log(Log.info("Company " + company.getCompName() + " Created"));
 	}
 
 	/* Remove Company
@@ -141,12 +142,12 @@ public class AdminFacade implements CouponClientFacade {
 			if (customer2 instanceof Customer && customer2.getCustomerName().equals(customer.getCustomerName())) {
 				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
 				JOptionPane.showMessageDialog(frame, "Customer " + customer.getCustomerName() + " Already Exist");
+				Logger.log(Log.info("Customer " + customer.getCustomerName() + " Already Exist"));
 				return;
 			}
 		}
 		custDAO.createCustomer(customer);
-		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-		JOptionPane.showMessageDialog(frame, "Customer " + customer.getCustomerName() + " Created");
+		Logger.log(Log.info("Customer " + customer.getCustomerName() + " Created"));
 	}
 
 	/* Remove Customer 
@@ -190,7 +191,7 @@ public class AdminFacade implements CouponClientFacade {
 	/* Update Coupons Expiration
 	 * This method update Coupons expiration 
 	 */
-	public void updateCouponsExpiration() throws DBException { 
+	public void updateCouponsExpiration() throws Exception { 
 		
 		coupDAO.updateCouponsExpiration();
 		

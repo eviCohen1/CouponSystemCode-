@@ -1,5 +1,7 @@
 package Main;
 
+import java.util.Timer;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -8,6 +10,7 @@ import Facade.AdminFacade;
 import Facade.CompanyFacade;
 import Facade.CouponClientFacade;
 import Facade.CustomerFacade;
+import Threads.DailyCouponExpirationTask;
 
 public class CouponSystem {
 
@@ -20,22 +23,25 @@ public class CouponSystem {
 	};
 
 	private CouponSystem() {
-
+		Timer time = new Timer();    // Instantiate Timer Object
+	    DailyCouponExpirationTask dailyCouponExpirationTask = new DailyCouponExpirationTask();  // Instantiate SheduledTask class
+	    time.schedule(dailyCouponExpirationTask, Utils.timeScheduler(), Utils.minToMilliSec(1));// Create task repeating every selected time, in millisecond
+      
 	}
-
+	
 	public static CouponSystem getCouponSystem() {
 		return instance;
 	}
 
 	public CouponClientFacade login(String name, String password, clientType cType) throws Exception {
-		// TODO Auto-generated method stub
+		
 
 		switch (cType) {
 		case Admin:
 			AdminFacade adminFacade = new AdminFacade();
 			if (adminFacade.login(name, password, cType)) {
 				return adminFacade;
-				// TODO - DailyCouponExpirationTask
+				
 			}
 			else { 
 				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
@@ -49,7 +55,7 @@ public class CouponSystem {
 			CustomerFacade customerFacade = new CustomerFacade();
 			if(customerFacade.login(name, password, cType)) { 
 				return customerFacade;
-				// TODO - DailyCouponExpirationTask
+		
 			}
 			else { 
 				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
@@ -63,7 +69,7 @@ public class CouponSystem {
 			CompanyFacade companyFacade = new CompanyFacade();
 			if (companyFacade.login(name, password, cType))  { 
 				return companyFacade;
-				// TODO - DailyCouponExpirationTask
+				
 			}
 			else { 
 				JFrame frame = new JFrame("JOptionPane showMessageDialog example");

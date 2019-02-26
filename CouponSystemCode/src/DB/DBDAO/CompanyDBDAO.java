@@ -1,4 +1,5 @@
 package DB.DBDAO; 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -25,6 +26,8 @@ import Exceptions.DBException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
+import Logs.Log;
+import Logs.Logger;
 
 
 public class CompanyDBDAO implements CompanyDAO {
@@ -53,6 +56,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	static Connection conn;
 	private Company company;
 	CouponDBDAO couponDBDAO = new CouponDBDAO(); 
+	Logger logger = new Logger(); 
 
 	/******************************************* CTOR*********************************************/
 
@@ -65,7 +69,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	 * This method create company and insert to company table
 	 */
 	@Override
-	public void createCompany(Company company) throws DBException {
+	public void createCompany(Company company) throws Exception  {
 		
 		// Open a connection from the connection pool class 
 		try {
@@ -84,7 +88,8 @@ public class CompanyDBDAO implements CompanyDAO {
 			try {
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				
+				e.getCause();
 			}
 		} catch (SQLException e) {
 			// Handle errors for JDBC
@@ -106,15 +111,14 @@ public class CompanyDBDAO implements CompanyDAO {
 
 		}
 		
-		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-		JOptionPane.showMessageDialog(frame, "Insert company " + company.getCompName() + " successfully");
+		Logger.log(Log.info("Insert company " + company.getCompName() + " to the database successfully"));
 
 	}
 
 	/* Remove Company
 	 * This method remove company from company table
 	 */
-	public void removeCompany(Company company) throws DBException {
+	public void removeCompany(Company company) throws Exception  {
 
 		// retrieve the PK by the company name
 		Company companyLocal = new Company(); 
@@ -158,15 +162,16 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 
 		}
-		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-		JOptionPane.showMessageDialog(frame, "Removed company " + company.getCompName()  + " successfully");
+		
+		Logger.log(Log.info("Removed company " + company.getCompName()  + " successfully"));
+		
 	}
 
 	/* Remove Company coupons 
 	 * Remove all the company coupons from the join table
 	 * Remove all the company coupons from coupon table
 	 */
-	public void removeCompanyCoupons (Company company) throws DBException { 
+	public void removeCompanyCoupons (Company company) throws Exception { 
 		
 		Set<Coupon> allCoupons = new HashSet<Coupon>();
 		allCoupons = getCompanyCoupons(company);
@@ -199,8 +204,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			while(itr2.hasNext()) { 
 				couponDBDAO.removeCoupon(itr2.next());
 				
-				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-				JOptionPane.showMessageDialog(frame, " Coupon " + itr.next().getTitle() + " removed successfully !!!!");
+				Logger.log(Log.info(" Coupon " + itr.next().getTitle() + " removed successfully !!!!"));
 			}
 			
 			
@@ -236,7 +240,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	 */
 	@Override
 	
-	public void updateCompany(Company company) throws DBException {
+	public void updateCompany(Company company) throws Exception {
 	
 		// Open a connection from the connection pool class 
 		try {
@@ -274,8 +278,7 @@ public class CompanyDBDAO implements CompanyDAO {
 
 		}
 		
-		JFrame frame = new JFrame("JOptionPane showMessageDialog example");
-		JOptionPane.showMessageDialog(frame, "Company " + company.getCompName()  + " Updated successfully");
+		Logger.log(Log.info( "Company " + company.getCompName()  + " Updated successfully"));
 		
 
 	}
@@ -284,7 +287,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	 * This method return company object by id  
 	 */
 	@Override
-	public Company getCompany(long id) throws DBException {
+	public Company getCompany(long id) throws DBException, IOException {
 
 		Company company = new Company();
 		// Open a connection from the connection pool class 
@@ -329,7 +332,9 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 
 		}
-
+		
+		Logger.log(Log.info( "Company " + company.getCompName()  + " Updated successfully"));
+		
 		return company;
 	}
 
@@ -337,7 +342,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	 * This method return Set collection of Company object that contain all the companies  
 	 */
 	@Override
-	public synchronized Set<Company> getAllCompanies() throws DBException {
+	public synchronized Set<Company> getAllCompanies() throws DBException, IOException {
 
 		Set<Company> companies = new HashSet<Company>();
 
@@ -384,6 +389,8 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 
 		}
+		
+		Logger.log(Log.info( "Get all compnies successfully"));
 
 		return companies;
 	}
@@ -391,7 +398,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	/* Print All Companies 
 	 * This method print all the companies 
 	 */
-	public void printAllCompanies() throws DBException {
+	public void printAllCompanies() throws DBException, IOException {
 
 		Company company = new Company();
 
@@ -440,6 +447,8 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 
 		}
+		
+		Logger.log(Log.info( "Print all compnies successfully"));
 
 	}
 
@@ -455,7 +464,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	/* Get company 
 	 * This method return company object by company name 
 	 */
-	public Company getCompany(String comp_name) throws DBException {
+	public Company getCompany(String comp_name) throws DBException, IOException {
 		Company company = new Company();
 		
 		// Open a connection from the connection pool class 
@@ -504,6 +513,8 @@ public class CompanyDBDAO implements CompanyDAO {
 
 		}
 		
+		Logger.log(Log.info( "Get company " +company.getCompName()+ " successfully"));
+		
 		return company;
 	
 
@@ -513,7 +524,7 @@ public class CompanyDBDAO implements CompanyDAO {
 	 * This method returns a Set collection of Coupon type, contain all the company coupons 
 	 */
 	@Override
-	public synchronized Set<Coupon> getCompanyCoupons(Company company) throws DBException {
+	public synchronized Set<Coupon> getCompanyCoupons(Company company) throws DBException, IOException {
 
 		Set<Coupon> coupons = new HashSet<Coupon>();
 		ArrayList<Long> couponIDs = new ArrayList<Long>();
@@ -588,6 +599,8 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 
 		}
+		
+		Logger.log(Log.info( "Get company " +company.getCompName()+ " coupons successfully"));
 		return coupons;
 	}
 

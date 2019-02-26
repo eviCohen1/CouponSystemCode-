@@ -17,6 +17,8 @@ import Exceptions.DBException;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
 import JavaBeans.Customer;
+import Logs.Log;
+import Logs.Logger;
 import Main.Utils;
 import Main.CouponSystem.clientType;
 
@@ -46,19 +48,21 @@ public class CustomerFacade implements CouponClientFacade {
 
 	}
 
-	/*************************************Methods********************************************/
+	/*************************************Methods
+	 * @throws Exception ********************************************/
 	/* Login
 	 * This method check if the name and the password are valid
 	 * Create a instance locally of company 
 	 */
 	@Override
-	public Boolean login(String name, String password, clientType cType) throws DBException {
+	public Boolean login(String name, String password, clientType cType) throws Exception {
 		this.CUST_NAME = name;
 		this.pass = password;
 		this.clientType = cType;
 		this.customerLocaly = customerDBDAO.getCustomer(CUST_NAME);
 		//Authentication of the password and company name  
 				if (customerLocaly.getCustomerName().equals(this.CUST_NAME)&&customerLocaly.getPassword().equals(this.pass) && customerLocaly != null) { 
+					Logger.log(Log.info("Customer" + name + " succeed to login to the coupon system"));
 					return true; 
 				}
 				else return false;
@@ -77,7 +81,6 @@ public class CustomerFacade implements CouponClientFacade {
 		Coupon coupon2 = new Coupon(); 
 		allCoupons = customerDBDAO.getCustomerCoupons(customerLocaly);
 		Iterator<Coupon> itr = allCoupons.iterator();
-		
         //Check if the customer already have the coupon 
 		while (itr.hasNext()) {
 			Coupon coupon3 = new Coupon();
@@ -85,6 +88,7 @@ public class CustomerFacade implements CouponClientFacade {
 			if (coupon3.getTitle().equals(coupon.getTitle())) {
 				JFrame frame = new JFrame("JOptionPane showMessageDialog example");
 				JOptionPane.showMessageDialog(frame, "The Coupon " + coupon.getTitle() + " is already exist");
+				Logger.log(Log.info( "The Coupon " + coupon.getTitle() + " is already exist"));
 				
 				return;
 			}
@@ -93,6 +97,7 @@ public class CustomerFacade implements CouponClientFacade {
 		
 		//Check if the coupon is available 
 		coupon1 = couponDBDAO.getCouponByTitle(coupon.getTitle());
+
 		if( coupon1.getAmount() > 0 && coupon1.getActive() ) 
 		{ 
 			//Update the amount of the coupon	
@@ -100,10 +105,12 @@ public class CustomerFacade implements CouponClientFacade {
 			coupon2.setAmount(coupon.getAmount()-1);
 			couponDBDAO.updateCoupon(coupon2);
 			customerDBDAO.purchaseCoupon(coupon, customerLocaly);
+			Logger.log(Log.info( "The Coupon " + coupon.getTitle() + " amount is updated to " +coupon2.getAmount()));
 		}
 		else { 
 			JFrame frame = new JFrame("JOptionPane showMessageDialog example");
 			JOptionPane.showMessageDialog(frame, "The Coupon " + coupon.getTitle() + " is not availble");
+			Logger.log(Log.info( "The Coupon " + coupon.getTitle() + " is not availble"));
 		}
 		
 		
@@ -125,6 +132,7 @@ public class CustomerFacade implements CouponClientFacade {
 		} else {
 			JFrame frame = new JFrame("JOptionPane showMessageDialog example");
 			JOptionPane.showMessageDialog(frame, "To Customer," + customerLocaly.getCustomerName() + " hasn't coupons");
+			Logger.log(Log.info( "To Customer," + customerLocaly.getCustomerName() + " hasn't coupons"));
 			return null;
 		}
 
@@ -151,8 +159,8 @@ public class CustomerFacade implements CouponClientFacade {
 				}
 			}
 			if (allCouponsByType.isEmpty()) {
-				JOptionPane.showMessageDialog(frame, "To Customer," + customerLocaly.getCustomerName()
-						+ " hasn't coupons with type " + cType.name());
+				JOptionPane.showMessageDialog(frame, "To Customer," + customerLocaly.getCustomerName()+ " hasn't coupons with type " + cType.name());
+				Logger.log(Log.info( "To Customer," + customerLocaly.getCustomerName()+ " hasn't coupons with type " + cType.name()));
 				return null;
 			} else {
 				return allCouponsByType;
@@ -160,8 +168,8 @@ public class CustomerFacade implements CouponClientFacade {
 
 		} else {
 
-			JOptionPane.showMessageDialog(frame,
-					"To Customer," + customerLocaly.getCustomerName() + " hasn't coupons ");
+			JOptionPane.showMessageDialog(frame,"To Customer," + customerLocaly.getCustomerName() + " hasn't coupons ");
+			Logger.log(Log.info( "To Customer," + customerLocaly.getCustomerName() + " hasn't coupons "));
 			return null;
 		}
 	}
@@ -191,6 +199,8 @@ public class CustomerFacade implements CouponClientFacade {
 			if (allPurchasedCouponsByType.isEmpty()) {
 				JOptionPane.showMessageDialog(frame, "To Customer," + customerLocaly.getCustomerName()
 						+ " hasn't coupons with price lower than " + price + "[NIS]");
+				Logger.log(Log.info( "To Customer," + customerLocaly.getCustomerName()
+				+ " hasn't coupons with price lower than " + price + "[NIS]"));
 				return null;
 			} else {
 				return allPurchasedCouponsByType;
@@ -200,6 +210,7 @@ public class CustomerFacade implements CouponClientFacade {
 
 			JOptionPane.showMessageDialog(frame,
 					"To Customer," + customerLocaly.getCustomerName() + " hasn't coupons ");
+			Logger.log(Log.info( "To Customer," + customerLocaly.getCustomerName() + " hasn't coupons "));
 			return null;
 		}
 	}

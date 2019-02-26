@@ -29,57 +29,57 @@ public interface CouponDAO {
 	/* Remove Company 
 	 * This method remove a company from company table 
 	 */
-	void removeCoupon(Coupon coupon) throws DBException;
+	void removeCoupon(Coupon coupon) throws  Exception;
 	
 	/* Remove Customer Coupon
 	 * This method remove coupon from join table, Customer_Coupon
 	 */
-	public void removeCustomerCoupon(Coupon coupon) throws DBException;
+	public void removeCustomerCoupon(Coupon coupon) throws Exception;
 	
 	/* Remove Company Coupons 
 	 * This method remove coupon from join table, Company_Coupon
 	 */
-	public void removeCompanyCoupon(Coupon coupon) throws DBException;
+	public void removeCompanyCoupon(Coupon coupon) throws  Exception;
 
 	/* Update Coupon
 	 * This method update coupon attributes ( Start date, End Date, Amount , Active ) 
 	 */
-	void updateCoupon(Coupon coupon) throws DBException;
+	void updateCoupon(Coupon coupon) throws  Exception;
 
 	/* Get Coupon 
 	 * This method returns Coupon object by id 
 	 */
-	Coupon getCoupon(long id) throws DBException;
+	Coupon getCoupon(long id) throws Exception;
 	
 	/* Print All coupons 
 	 * This method print all the coupons 
 	 */
-	Set<Coupon> getAllCoupouns() throws DBException;
+	Set<Coupon> getAllCoupouns() throws Exception;
 	
 	/* Get coupon By type 
 	 * This method return Set Collection of Coupon type, contain all the coupons with the same type
 	 */
-	Set<Coupon> getCouponByType(Coupon coupon) throws DBException; 
+	Set<Coupon> getCouponByType(Coupon coupon) throws Exception; 
 	
 	/* Create Coupon
 	 * This method create coupon and update the join table Company_Coupon
 	 */
-	public void createCoupon(Coupon coupon, Company company) throws DBException;
+	public void createCoupon(Coupon coupon, Company company) throws Exception;
 	
 	/* Get all Coupons 
 	 * This method return Set collection of coupon type, contain all the coupons
 	 */
-	public Coupon getCouponByTitle(String couponName) throws DBException;
+	public Coupon getCouponByTitle(String couponName) throws Exception;
 	
 	/* Print All coupons 
 	 * This method print all the coupons 
 	 */
-	public void printAllCoupons() throws DBException;
+	public void printAllCoupons() throws Exception;
 	
     /* Update Coupon Expiration 
      *  This method check the coupon expiration and update the Active column ( boolean ) 
      */
-	public void  updateCouponsExpiration() throws DBException; 
+	public void  updateCouponsExpiration() throws Exception; 
 	
 	
 	
