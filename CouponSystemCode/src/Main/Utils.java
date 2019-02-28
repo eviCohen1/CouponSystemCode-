@@ -20,18 +20,27 @@ import java.util.Date;
 
 public class Utils {
 
+	/**This method return current date 
+	 * 
+	 */
 	public static Date getDate() {
 		LocalDate localDate = LocalDate.now();
 		Date date = java.sql.Date.valueOf(localDate);
 		return date;
 	}
 
+	/** This method get the expiration days and return the end date 
+	 * 
+	 */
 	public static Date endDate(int numDays) {
 		LocalDate localDate = LocalDate.now().plusDays(numDays);
 		Date date = java.sql.Date.valueOf(localDate);
 		return date;
 	}
 
+	/** This method return the timeStamp, used to stamp the log time 
+	 * @return
+	 */
 	public static LocalDateTime timeStamp() {
 
 		LocalDateTime localDateTime = LocalDateTime.now();
@@ -39,6 +48,9 @@ public class Utils {
 		return localDateTime;
 	}
 
+	/** This method used for test, in case we would like to check the scheduler mechanism 
+	 * 
+	 */
 	public static Date timeScheduler() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.MILLISECOND, 0);
@@ -50,9 +62,8 @@ public class Utils {
 		return calendar.getTime();
 	}
 
-	/**
-	 * @param minutes
-	 * @return This method convert minutes to milliseconds
+	/**This method convert minutes to milliseconds
+	 * 
 	 */
 	public static long minToMilliSec(long minutes) {
 
@@ -64,26 +75,42 @@ public class Utils {
 
 	}
 
+	/** This method return the driver of the derby JDBC
+	 * @return
+	 */
 	public static String getDriverData() {
 
 		return "org.apache.derby.jdbc.ClientDriver";
 	}
 
+	/** This method return the database local host URL and the port 
+	 * @return
+	 */
 	public static String getDBUrl() {
 		return "jdbc:derby://localhost:3301/MyDB;create=true";
 	}
 
+	/**This method return the path of the Logs file 
+	 * @return
+	 */
 	public static String getPathLogsFile() {
 
 		return "C:\\Users\\evic\\OneDrive\\Java\\Project\\Logs\\logs.txt";
 	}
 	
+	/** This method retrun the path of the Logs Folder 
+	 * @return
+	 */
 	public static String getPathDirectoryLogsFile() { 
 		
 		return "C:\\Users\\evic\\OneDrive\\Java\\Project\\Logs\\" ; 
 		
 	}
 
+	/** This method  read the Logs file and return a string  
+	 * @return
+	 * @throws IOException
+	 */
 	public static String readLogFile() throws IOException {
 
 		String data = "";
@@ -106,6 +133,10 @@ public class Utils {
 		return data;
 	}
 
+	/** This method write to Log file 
+	 * @param log
+	 * @throws IOException
+	 */
 	public static void writeLogFile(String log) throws IOException {
 
 		try {
@@ -130,6 +161,9 @@ public class Utils {
 		}
 	}
 
+	/** This method return boolean true if the file exist 
+	 * @return
+	 */
 	public static boolean fileExist() {
 
 		File file = new File(getPathLogsFile());
@@ -138,6 +172,10 @@ public class Utils {
 
 	}
 
+	/** This method create a directory and return boolean value 
+	 * 
+	 * @return
+	 */
 	public static boolean createDirctories(boolean creatParent) {
 
 		File file = new File(getPathDirectoryLogsFile());

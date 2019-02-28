@@ -11,7 +11,7 @@ import JavaBeans.Coupon;
 import Logs.Log;
 import Logs.Logger;
 
-/**
+/** This class update daily the coupons are expired, the task is thread that implements Runnable interface 
  * @author evic
  *
  */
@@ -40,7 +40,7 @@ public class DailyCouponExpirationTask extends TimerTask implements Runnable {
 			while (quit) {
 				
 				couponDBDAO.updateCouponsExpiration();
-				Thread.sleep((long) 1000);		//sleep one second 
+				Thread.sleep((long) 1000);		//sleep one second, i can use the  sleep method to schedule the daily task ( Should define  86400000 millisecond) 
 				terminate();   //terminate the task 
 				Logger.log(Log.info("Daily Task, update Coupons expiration "));
 			}
@@ -49,7 +49,7 @@ public class DailyCouponExpirationTask extends TimerTask implements Runnable {
 			terminate();
 		}
 	}
-	/* (non-Javadoc)
+	/* This method kill the task 
 	 * @see java.util.TimerTask#run()
 	 */
 	public void terminate() {		

@@ -12,6 +12,12 @@ import Facade.CouponClientFacade;
 import Facade.CustomerFacade;
 import Threads.DailyCouponExpirationTask;
 
+/** The CouponSystem is singleton class 
+ * Contains : 
+ * DailyCouponExpirationTask, start and scheduling  in the  constructor 
+ * Login mechanism 
+ * getCouponSystem
+ */
 public class CouponSystem {
 
 	private static CouponSystem instance = new CouponSystem();
@@ -22,6 +28,7 @@ public class CouponSystem {
 		Admin, Customer, Company
 	};
 
+	/**************************************CTOR***********************************/
 	private CouponSystem() {
 		Timer time = new Timer();    // Instantiate Timer Object
 	    DailyCouponExpirationTask dailyCouponExpirationTask = new DailyCouponExpirationTask();  // Instantiate SheduledTask class
@@ -29,10 +36,16 @@ public class CouponSystem {
       
 	}
 	
+	/** This method return instance of couponSystem
+	 * @return
+	 */
 	public static CouponSystem getCouponSystem() {
 		return instance;
 	}
 
+	/** This method return CouponClientFacade object ( casting object according to the clientType ) 
+	 * 
+	 */
 	public CouponClientFacade login(String name, String password, clientType cType) throws Exception {
 		
 

@@ -8,7 +8,12 @@
 
 ## Introduction:
 
-Test
+This is a Digital Coupon system, developed in Java backEnd and Angular frontEnd  
+The Digital Coupon System has 3 types of client : 
+1. Admin 
+2. Company 
+3. Customer 
+ 
 
 ## Our Project:
 
