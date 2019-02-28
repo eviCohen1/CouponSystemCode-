@@ -44,10 +44,14 @@ public class Test {
 //	
 		
 		Company company = new Company(2, "mPrest", "12345", "oriel@test.com");
-		Coupon coupon = new Coupon(4, "PhoneNote8", Utils.getDate(), Utils.endDate(10),3, CouponType.CAMPING,"wtf", 1251, "image",true);
+		Coupon coupon = new Coupon(4, "PhoneNote8", Utils.getDate(), Utils.endDate(10),2, CouponType.CAMPING,"wtf", 1251, "image",true);
 		Customer customer = new Customer(3, "Evi", "1234");
 		Customer customer2 = new Customer(4,"Lior", "1234");
 		Coupon coupon1 = new Coupon(3, "Kobi", Utils.getDate(), Utils.endDate(60),5555, CouponType.HEALTH,"wtf", 1251, "image",false);
+		Customer customer3 = new Customer(4, "Haim", "1234");
+		Customer customer4 = new Customer(5, "Shani", "1234");
+		Customer customer5 = new Customer(5, "Noam", "1234");
+		Customer customer6 = new Customer(5, "Uri", "1234");
 		Company company2 = new Company(3, "mPrest", "12345", "oriel@test.com"); 
 		
 	/************************************Admin-Facade-Test************************/	
@@ -85,29 +89,35 @@ public class Test {
 //		companyFacade.createCoupon(coupon);
 
 /*********************************************Test-Main****************************/ 
-//		/*********Admin**************/
-//		AdminFacade adminFacade2 = new AdminFacade();
-//		adminFacade2 = (AdminFacade) CouponSystem.getCouponSystem().login("admin", "1234", clientType.Admin);
-//        if ( adminFacade2 != null ) { 
-//        	
-//
-//        	
+		/*********Admin**************/
+		AdminFacade adminFacade2 = new AdminFacade();
+		adminFacade2 = (AdminFacade) CouponSystem.getCouponSystem().login("admin", "1234", clientType.Admin);
+        if ( adminFacade2 != null ) { 
+        	
+        	adminFacade2.removeCustomer(customer6);
+        	adminFacade2.createCustomer(customer6);
+
+        }
+        	
+
+        	
 //        }
 		/*********Customer************/
-//        CustomerFacade customerFacade = new CustomerFacade(); 
-//        customerFacade = (CustomerFacade) CouponSystem.getCouponSystem().login("Lior", "1234", clientType.Customer); 
-//        if(customerFacade!=null) {
-//        	customerFacade.getAllPurchasedCoupons();       	
-//        }
+        CustomerFacade customerFacade = new CustomerFacade(); 
+        customerFacade = (CustomerFacade) CouponSystem.getCouponSystem().login("Uri", "1234", clientType.Customer); 
+        if(customerFacade!=null) {
+        	customerFacade.purchaseCoupon(coupon);      	
+        }
+        
         
         
         /*********Company************/
-        CompanyFacade companyFacade = new CompanyFacade(); 
-        companyFacade = (CompanyFacade) CouponSystem.getCouponSystem().login("mPrest", "12345",clientType.Company);
-        if(companyFacade!=null) { 
-        	companyFacade.updateCoupon(coupon);
-        	}
-    
+//		CompanyFacade companyFacade = new CompanyFacade(); 
+//        companyFacade = (CompanyFacade) CouponSystem.getCouponSystem().login("mPrest", "12345",clientType.Company);
+//        if(companyFacade!=null) { 
+//        	companyFacade.updateCoupon(coupon);
+//        	}
+//    
     /****************************Test-PurchasedCoupon*****************************/
 
 //        CustomerFacade customerFacade = new CustomerFacade(); 

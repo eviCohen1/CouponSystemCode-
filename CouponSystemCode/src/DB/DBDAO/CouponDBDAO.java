@@ -371,14 +371,14 @@ public class CouponDBDAO implements CouponDAO {
 			coupon = itr.next();
 			
 			//Check if the coupon is expired and update the Active value 
-			if(coupon.getStartDate().compareTo(coupon.getEndDate())>0) {
+			if(coupon.getStartDate().compareTo(coupon.getEndDate())>0  || coupon.getAmount() == 0 && coupon.getActive()) {
 				coupon.setActive(false);
 				updateCoupon(coupon);
 				Logger.log(Log.info("The Coupon " + coupon.getTitle() + " is Expired and updated coupon details "));
 			}
 			
 			//Check if the coupon is valid and update the Active value 
-			if ( coupon.getStartDate().compareTo(coupon.getEndDate())<0) {	
+			if ( coupon.getStartDate().compareTo(coupon.getEndDate())<0 && !coupon.getActive() && coupon.getAmount()>0) {	
 				coupon.setActive(true);
 				updateCoupon(coupon);
 				Logger.log(Log.info("The Coupon " + coupon.getTitle() + " is Valide and updated coupon details"));
@@ -649,8 +649,7 @@ public class CouponDBDAO implements CouponDAO {
 			pstmt.setDouble(7, coupon.getPrice());
 			pstmt.setString(8, coupon.getImage());
 			pstmt.setBoolean(9,coupon.getActive());
-			// Execute the query and update
-			
+			// Execute the query and update	
 			pstmt.executeUpdate();
 			// Insert the new coupon to join table COMPANY_COUPON
 			stmt = conn.createStatement();

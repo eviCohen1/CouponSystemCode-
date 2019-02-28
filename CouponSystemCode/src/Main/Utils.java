@@ -97,7 +97,10 @@ public class Utils {
 
 			inputStream.close();
 		} catch (Exception e) {
-			System.out.println("The file not exist !!!");
+			
+			System.out.println(e.getMessage());
+			
+//			System.out.println("The file not exist !!!");
 		}
 
 		return data;

@@ -16,7 +16,7 @@ public class Log {
 		String log;
 		
 		timestamp = Utils.timeStamp();
-		log =  "LogType: "  + logType.Info +", Timestamp: " + timestamp +  ", Description: " + description   ; 
+		log =  "["  + logType.Info +"]  Timestamp: " + timestamp +  ", Description: " + description   ; 
 		
 		return log ; 	
 		
@@ -27,7 +27,7 @@ public class Log {
 		String log;
 		
 		timestamp = Utils.timeStamp();
-		log =  "LogType: "  + logType.Error + ", Timestamp: " + timestamp +  ", Description: " + description + ", ExceptionMassage: " + ExceptionMassage  ; 
+		log =  "["  + logType.Error + "]  Timestamp: " + timestamp +  ", Description: " + description + ", ExceptionMassage: " + ExceptionMassage  ; 
 		
 		return log ; 	
 		
