@@ -1,6 +1,7 @@
 package DB;
 
 import java.beans.Statement;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -51,12 +52,8 @@ public class ConnPool {
 	 */
 	private ConnPool() throws Exception {
 		
-		try {
-			Class.forName(Utils.getDriverData());
-		}catch (ClassNotFoundException e){
-			e.getMessage();
-		}
-		
+		Class.forName(Utils.getDriverData());
+	
 		Connection con = DriverManager.getConnection(Utils.getDBUrl());
 		DatabaseMetaData metaData; 
 		ResultSet tabelResultSet;  
@@ -102,7 +99,7 @@ public class ConnPool {
 	 * poll method - get a connection from the connection pool
 	 * @throws DBException
 	 */
-	public synchronized Connection getConnection()throws DBException { 
+	public synchronized Connection getConnection()throws Exception { 
 		try{
 			Connection c=conQ.poll();
 			c.setAutoCommit(true);

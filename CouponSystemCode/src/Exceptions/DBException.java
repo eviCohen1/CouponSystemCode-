@@ -1,20 +1,27 @@
 package Exceptions;
 
+import java.io.IOException;
+import java.io.ObjectInputStream.GetField;
 import java.util.Arrays;
+
+import Logs.Log;
+import Logs.Logger;
 
 @SuppressWarnings("serial")
 public class DBException extends Exception{
 
-	public DBException(String message) {
+	public DBException(String message) throws IOException {
 		super(message);
+		loggerMassage();
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public String toString() {
-		return "DBException [getMessage()=" + getMessage() + ", getLocalizedMessage()=" + getLocalizedMessage()
-				+ ", getCause()=" + getCause() + ", toString()=" + super.toString() + ", fillInStackTrace()="
-				+ fillInStackTrace() + ", getClass()=" + getClass() + "]";
+
+	public void loggerMassage() throws IOException {
+		
+		Log log = new Log(); 
+		Logger.log(Log.Error(getMessage(), getStackTrace()));
+
 	}
 
 

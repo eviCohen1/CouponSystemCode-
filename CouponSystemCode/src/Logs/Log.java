@@ -28,20 +28,20 @@ public class Log {
 	
 	/**This method get description and ExceptionMassage and return Log.Error
 	 * @param description
-	 * @param ExceptionMassage
+	 * @param throwable
 	 * @return
 	 */
-	public static String Error(String description, String ExceptionMassage) { 
+	public static String Error(String description, StackTraceElement[] stackTraceElements) { 
 		
 		String log;
 		
 		timestamp = Utils.timeStamp();
-		log =  "["  + logType.Error + "]  Timestamp: " + timestamp +  ", Description: " + description + ", ExceptionMassage: " + ExceptionMassage  ; 
+		log =  "["  + logType.Error + "]  Timestamp: " + timestamp +  ", Description: " + description + ", Stack Trace: " + stackTraceElements ; 
 		
 		return log ; 	
 		
 	}
-	
+
 	
 
 }

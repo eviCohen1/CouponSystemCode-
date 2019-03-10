@@ -1,5 +1,6 @@
 package DB;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -40,14 +41,10 @@ public class Database {
 	 * @throws DBException
 	 * @throws SQLException
 	 */
-	public static void createTables() throws DBException, SQLException {
+	public static void createTables() throws Exception {
 
 		// Connection
-		try {
 			Class.forName(Utils.getDriverData());
-		} catch (ClassNotFoundException e) {
-			e.getMessage();
-		}
 		try {
 
 			conn = DriverManager.getConnection(Utils.getDBUrl());
@@ -69,7 +66,7 @@ public class Database {
 			System.out.println("success:" + sql);
 		} catch (SQLException e) {
 			// TODO: handle exception
-			System.out.println(e.getMessage());
+			throw new DBException("To create Company table is faild");
 		}
 
 		// Table 2 creation (Customer)
@@ -82,7 +79,7 @@ public class Database {
 			stmt2.executeUpdate(sql);
 			System.out.println("success:" + sql);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			throw new DBException("To create Customer table is faild");
 		}
 
 		// Table 3 creation (Coupon)
@@ -102,7 +99,7 @@ public class Database {
 			stmt3.executeUpdate(sql);
 			System.out.println("success:" + sql);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			throw new DBException("To create table Coupon  is faild");
 		}
 
 		// Table 4 creation (Customer_Coupon - Join table)
@@ -114,7 +111,7 @@ public class Database {
 			stmt4.executeUpdate(sql);
 			System.out.println("success:" + sql);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			throw new DBException("Create table Customer_Coupon is failed");
 		}
 
 		// Table 5 creation (Company_Coupon - Join table)
@@ -127,7 +124,7 @@ public class Database {
 			System.out.println("success:" + sql);
 
 		} catch (SQLException e) {
-			throw new DBException("update customer failed");
+			throw new DBException("Create table Company_Coupon is failed");
 		} finally {
 			// finally block used to close resources
 			try {
