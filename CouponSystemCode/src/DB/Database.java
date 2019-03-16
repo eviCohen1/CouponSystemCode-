@@ -66,7 +66,7 @@ public class Database {
 			System.out.println("success:" + sql);
 		} catch (SQLException e) {
 			// TODO: handle exception
-			throw new DBException("To create Company table is faild");
+			throw new DBException("The create a Company table is failed");
 		}
 
 		// Table 2 creation (Customer)
@@ -79,7 +79,7 @@ public class Database {
 			stmt2.executeUpdate(sql);
 			System.out.println("success:" + sql);
 		} catch (SQLException e) {
-			throw new DBException("To create Customer table is faild");
+			throw new DBException("The create a Customer table is failed");
 		}
 
 		// Table 3 creation (Coupon)
@@ -99,7 +99,7 @@ public class Database {
 			stmt3.executeUpdate(sql);
 			System.out.println("success:" + sql);
 		} catch (SQLException e) {
-			throw new DBException("To create table Coupon  is faild");
+			throw new DBException("The create a Coupon table is failed");
 		}
 
 		// Table 4 creation (Customer_Coupon - Join table)
@@ -111,7 +111,7 @@ public class Database {
 			stmt4.executeUpdate(sql);
 			System.out.println("success:" + sql);
 		} catch (SQLException e) {
-			throw new DBException("Create table Customer_Coupon is failed");
+			throw new DBException("The create a Customer_Coupon table is failed");
 		}
 
 		// Table 5 creation (Company_Coupon - Join table)
@@ -124,7 +124,7 @@ public class Database {
 			System.out.println("success:" + sql);
 
 		} catch (SQLException e) {
-			throw new DBException("Create table Company_Coupon is failed");
+			throw new DBException("The create a Company_Coupon table is failed");
 		} finally {
 			// finally block used to close resources
 			try {

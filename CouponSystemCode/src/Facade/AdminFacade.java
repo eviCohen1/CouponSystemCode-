@@ -14,6 +14,7 @@ import DB.DBDAO.CompanyDBDAO;
 import DB.DBDAO.CouponDBDAO;
 import DB.DBDAO.CustomerDBDAO;
 import Exceptions.DBException;
+import Exceptions.LoginException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.Customer;
@@ -49,7 +50,7 @@ public class AdminFacade implements CouponClientFacade {
 	 * This Method return a boolean value if the name and the password valid 
 	 */
 	@Override
-	public Boolean login(String name, String password, clientType cType) throws DBException {
+	public Boolean login(String name, String password, clientType cType) throws Exception {
 		// TODO Auto-generated method stub
 		 if ( name.equals(this.name) && password.equals(this.pass)) { 
 			 return true; 
@@ -67,7 +68,6 @@ public class AdminFacade implements CouponClientFacade {
 		Set<Company> allCompanies = new HashSet<Company>();
 		allCompanies = compDAO.getAllCompanies();
 		Iterator<Company> itr = allCompanies.iterator();
-        System.out.println(company);
 		while (itr.hasNext()) {
 			Company company2 = new Company();
 			company2 = (Company) itr.next();
@@ -102,7 +102,7 @@ public class AdminFacade implements CouponClientFacade {
 
 		/*Retrieve the company object with the PK by company name*/ 
 		Company companyLocaly;
-		companyLocaly = compDAO.getCompany(name);
+		companyLocaly = compDAO.getCompany(company.getCompName());
 		/* Update the company details except the company name */
 		company.setId(companyLocaly.getId());
 		company.setPassword(newPassword);
@@ -166,9 +166,9 @@ public class AdminFacade implements CouponClientFacade {
 	/* Update Customer 
 	 * This method update customer attributes 
 	 */
-	public void updateCustomer(Customer customer) throws Exception {
+	public void updateCustomer(Customer customer,String password ) throws Exception {
 
-		custDAO.updateCustomer(customer);
+		custDAO.updateCustomer(customer,password);
 	}
 
 	/* Get customer

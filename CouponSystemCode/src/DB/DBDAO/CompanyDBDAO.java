@@ -22,7 +22,10 @@ import Main.*;
 import DB.ConnPool;
 import DB.Database;
 import DB.DAO.CompanyDAO;
+import Exceptions.CreateException;
 import Exceptions.DBException;
+import Exceptions.RemoveException;
+import Exceptions.UpdateException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
@@ -93,7 +96,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			}
 		} catch (SQLException e) {
 			// Handle errors for JDBC
-			throw new DBException("Company creation failed");
+			throw new CreateException("Company creation failed");
 		} finally {
 			// finally block used to close resources, return the connection pool 
 			try {
@@ -146,6 +149,7 @@ public class CompanyDBDAO implements CompanyDAO {
 			} catch (SQLException e1) {
 				throw new DBException(e1.getMessage());
 			}
+//			throw new RemoveException("The remove action is failed"); 
 		} finally {
 			// finally block used to close resources
 			try {
@@ -177,12 +181,7 @@ public class CompanyDBDAO implements CompanyDAO {
 		allCoupons = getCompanyCoupons(company);
 		long couponId ; 
 		// Open a connection
-		try {
-			conn = DriverManager.getConnection(Utils.getDBUrl());
-		} catch (SQLException e2) {
-			throw new DBException("The Connection is faild");
-		}
-		
+		conn =ConnPool.getInstance().getConnection();
 		String sql= "DELETE FROM COMPANY_COUPON WHERE COUPON_ID=?";
 		PreparedStatement pstmt = null; 
 		
@@ -212,8 +211,9 @@ public class CompanyDBDAO implements CompanyDAO {
 			try {
 				conn.rollback();// roll back updates to the database , If there is error
 			} catch (SQLException e1) {
-				throw new DBException(e1.getMessage());
+				throw new DBException("THe rollback is failed");
 			}
+	     	throw new RemoveException("The remove action is failed"); 
 		} finally {
 			// finally block used to close resources
 			try {
@@ -258,9 +258,10 @@ public class CompanyDBDAO implements CompanyDAO {
 			pstms.setString(1, company.getPassword());
 			pstms.setString(2, company.getEmail());
 			pstms.setLong(3,company.getId());
+			System.out.println(pstms);
 			pstms.executeUpdate();
 		} catch (SQLException e) {
-			throw new DBException("update customer failed");
+			throw new UpdateException("Update Company failed");
 		} finally {
 			// finally block used to close resources
 			try {
@@ -475,7 +476,6 @@ public class CompanyDBDAO implements CompanyDAO {
 		}
 		// Define the Execute query
 		java.sql.Statement stmt = null;
-
 		try {
 			stmt = conn.createStatement();
 			// build The SQL query

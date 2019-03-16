@@ -47,7 +47,7 @@ public interface CustomerDAO {
 	/* Update Customer 
 	 * This method update the customer password
 	 */
-	void updateCustomer(Customer customer) throws Exception;
+	void updateCustomer(Customer customer , String password) throws Exception;
 
 	/* Get customer 
 	 * This method return a customer object by customer name 

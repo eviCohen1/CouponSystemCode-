@@ -111,9 +111,7 @@ public class CustomerFacade implements CouponClientFacade {
 		if (coupon1.getAmount() > 0 && coupon1.getActive()) {
 			// Update the amount of the coupon
 			coupon2 = coupon1;
-			System.out.println(coupon2.getAmount());
 			coupon2.setAmount(coupon1.getAmount() - 1);
-			System.out.println(coupon2.getAmount());
 			if (coupon2.getAmount() == 0) {
 
 				coupon2.setActive(false);
@@ -218,7 +216,7 @@ public class CustomerFacade implements CouponClientFacade {
 				}
 			}
 			if (allPurchasedCouponsByType.isEmpty()) {
-				JOptionPane.showMessageDialog(frame, "To Customer," + customerLocaly.getCustomerName()
+				JOptionPane.showMessageDialog(frame, "To Customer " + customerLocaly.getCustomerName()
 						+ " hasn't coupons with price lower than " + price + "[NIS]");
 				Logger.log(Log.info("To Customer," + customerLocaly.getCustomerName()
 						+ " hasn't coupons with price lower than " + price + "[NIS]"));

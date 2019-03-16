@@ -246,6 +246,7 @@ public class CompanyFacade implements CouponClientFacade {
 				Coupon coupon2 = new  Coupon(); 
 				coupon2 = itr.next();
 				// Check the type of the Coupon
+				System.out.println(coupon2.getPrice());
 				if (priceLimt >= coupon2.getPrice()) {
 
 					coupons2.add(coupon2);

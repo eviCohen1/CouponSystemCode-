@@ -18,7 +18,7 @@ public class UpdateException extends Exception{
 
 		Log log = new Log();
 		Logger.log(Log.Error(getMessage(), getStackTrace()));
-
+		
 	}
 
 }

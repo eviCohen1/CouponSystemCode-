@@ -30,9 +30,9 @@ public class CouponSystem {
 
 	/**************************************CTOR***********************************/
 	private CouponSystem() {
-		Timer time = new Timer();    // Instantiate Timer Object
-	    DailyCouponExpirationTask dailyCouponExpirationTask = new DailyCouponExpirationTask();  // Instantiate SheduledTask class
-	    time.schedule(dailyCouponExpirationTask, Utils.timeScheduler(), Utils.minToMilliSec(1));// Create task repeating every selected time, in millisecond
+//		Timer time = new Timer();    // Instantiate Timer Object
+//	    DailyCouponExpirationTask dailyCouponExpirationTask = new DailyCouponExpirationTask();  // Instantiate SheduledTask class
+//	    time.schedule(dailyCouponExpirationTask, Utils.timeScheduler(), Utils.minToMilliSec(1));// Create task repeating every selected time, in millisecond
       
 	}
 	

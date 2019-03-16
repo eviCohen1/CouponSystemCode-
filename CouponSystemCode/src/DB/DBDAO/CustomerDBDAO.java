@@ -20,7 +20,10 @@ import org.omg.CORBA.PRIVATE_MEMBER;
 
 import DB.ConnPool;
 import DB.DAO.CustomerDAO;
+import Exceptions.CreateException;
 import Exceptions.DBException;
+import Exceptions.RemoveException;
+import Exceptions.UpdateException;
 import JavaBeans.Company;
 import JavaBeans.Coupon;
 import JavaBeans.CouponType;
@@ -93,7 +96,7 @@ public class CustomerDBDAO implements CustomerDAO {
 
 		} catch (SQLException e) {
 			// Handle errors for JDBC
-			throw new DBException("Customer creation faild");
+			throw new CreateException("Customer creation faild");
 		} finally {
 			// finally block used to close resources
 			try {
@@ -147,6 +150,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			} catch (SQLException e1) {
 				throw new DBException("The Rollback connection failed");
 			}
+			throw new RemoveException("The remove action is failed"); 
 		} finally {
 			// finally block used to close resources
 			try {
@@ -204,8 +208,9 @@ public class CustomerDBDAO implements CustomerDAO {
 			try {
 				conn.rollback();// roll back updates to the database , If there is error
 			} catch (SQLException e1) {
-				throw new DBException(e1.getMessage());
+				throw new DBException("The rollback is failed");
 			}
+			throw new RemoveException("The remove action is failed"); 
 		} finally {
 			// finally block used to close resources
 			try {
@@ -231,30 +236,24 @@ public class CustomerDBDAO implements CustomerDAO {
 	 * This method update the customer password
 	 */
 	@Override
-	public void updateCustomer(Customer customer) throws Exception {
+	public void updateCustomer(Customer customer, String password) throws Exception {
 
 		// retrieve the customer details from DB 
 		Customer customerLocaly = new Customer() ; 
-		customerLocaly = getCustomer(customer.getCustomerName()); 
-		
+		customerLocaly = getCustomer(customer.getCustomerName()); 	
 		// Open a connection from the connection pool class 
-		try {
 			conn =ConnPool.getInstance().getConnection();
-		} catch (Exception e) {
-			throw new DBException("The Connection is faild");
-		}
 		// create the Execute query
 		PreparedStatement pstms = null;
 		String sqlString = "UPDATE CUSTOMER SET  PASSWORD = ? WHERE ID = ? ";
 		try {
 			// create PreparedStatement and build the SQL query
 			pstms = conn.prepareStatement(sqlString);
-			pstms.setString(1, customer.getPassword());
+			pstms.setString(1, password);
 			pstms.setLong(2, customerLocaly.getId());
-
 			pstms.executeUpdate();
 		} catch (SQLException e) {
-			throw new DBException("update customer failed");
+			throw new UpdateException("update customer failed");
 		} finally {
 			// finally block used to close resources
 			try {
@@ -537,11 +536,7 @@ public class CustomerDBDAO implements CustomerDAO {
 		Customer customer = new Customer();
 		
 		// Open a connection from the connection pool class 
-		try {
 			conn =ConnPool.getInstance().getConnection();
-		} catch (Exception e) {
-			throw new DBException("The Connection is faild");
-		}
 		java.sql.Statement stmt = null;
 
 		try {
@@ -552,7 +547,7 @@ public class CustomerDBDAO implements CustomerDAO {
 			ResultSet resultSet = stmt.executeQuery(sql);
 
 			while (resultSet.next()) {
-				if (resultSet.getString(2).equals(CUST_NAME)) {
+				if (resultSet.getString(2).equals(CUST_NAME)) {			
 					customer.setId(resultSet.getLong(1));
 					customer.setCustomerName(resultSet.getString(2));
 					customer.setPassword(resultSet.getString(3));
@@ -561,8 +556,8 @@ public class CustomerDBDAO implements CustomerDAO {
 
 			}
 
+
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
 			throw new DBException("get customer failed");
 		} finally {
 			// finally block used to close resources
