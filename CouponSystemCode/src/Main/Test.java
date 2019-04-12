@@ -61,7 +61,7 @@ public class Test {
         	
 //        	adminFacade2.createCompany(company2);
 //        	adminFacade2.removeCompany(company);
-//        	adminFacade2.updateCompany(company, "221284", "Evi.Cohen1@gmail.com");    
+//        	adminFacade2.updateCompany(company, "777777", "Evi.Cohen1@gmail.com");    
 //        	System.out.println(adminFacade2.getAllCompanies());
         	
 //        	adminFacade2.removeCustomer(customer5);
@@ -86,14 +86,14 @@ public class Test {
     		
 
 		//		/*********Customer************/
-//        CustomerFacade customerFacade = new CustomerFacade(); 
-//        customerFacade = (CustomerFacade) CouponSystem.getCouponSystem().login("Shani", "1234", clientType.Customer); 
-//        if(customerFacade!=null) {
-//        	customerFacade.purchaseCoupon(coupon1); 
+        CustomerFacade customerFacade = new CustomerFacade(); 
+        customerFacade = (CustomerFacade) CouponSystem.getCouponSystem().login("Haim", "1234", clientType.Customer); 
+        if(customerFacade!=null) {
+        	customerFacade.purchaseCoupon(coupon1); 
 //        	System.out.println(customerFacade.getAllPurchasedCoupons());
 //        	System.out.println(customerFacade.getAllPurchasedCouponsByType(CouponType.CAMPING));
-//        	System.out.println(customerFacade.getAllPurchasedCouponsByPrice(1000.0));
-//        }
+//        	System.out.println(customerFacade.getAllPurchasedCouponsByPrice(2000.0));
+        }
         
         
         

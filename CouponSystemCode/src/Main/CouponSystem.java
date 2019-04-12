@@ -30,9 +30,9 @@ public class CouponSystem {
 
 	/**************************************CTOR***********************************/
 	private CouponSystem() {
-//		Timer time = new Timer();    // Instantiate Timer Object
-//	    DailyCouponExpirationTask dailyCouponExpirationTask = new DailyCouponExpirationTask();  // Instantiate SheduledTask class
-//	    time.schedule(dailyCouponExpirationTask, Utils.timeScheduler(), Utils.minToMilliSec(1));// Create task repeating every selected time, in millisecond
+		Timer time = new Timer();    // Instantiate Timer Object
+	    DailyCouponExpirationTask dailyCouponExpirationTask = new DailyCouponExpirationTask();  // Instantiate SheduledTask class
+	    time.schedule(dailyCouponExpirationTask, Utils.timeScheduler(), Utils.minToMilliSec(5));// Create task repeating every selected time, in millisecond
       
 	}
 	
@@ -99,6 +99,7 @@ public class CouponSystem {
 	public void ShutDown() throws Exception {
 
 		ConnPool.getInstance().closeAllConnections(); 
+	
 		// TODO - Stop the DailyTask
 	}
 

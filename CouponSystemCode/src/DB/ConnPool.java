@@ -53,6 +53,8 @@ public class ConnPool {
 	private ConnPool() throws Exception {
 		
 		Class.forName(Utils.getDriverData());
+		
+		//TODO - Read about reflection - Design pattern 
 	
 		Connection con = DriverManager.getConnection(Utils.getDBUrl());
 		DatabaseMetaData metaData; 
@@ -85,9 +87,9 @@ public class ConnPool {
 		if (instance==null){
 			try {
 				instance = new ConnPool();
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new DBException ("Failed to return instansiation of connection to the DB"); 
 			}
 		}
 		
@@ -122,8 +124,10 @@ public class ConnPool {
 	/** Close all the connection 
 	 * This method close all the open
 	 * peek method - check if the connection is open 
+	 * @throws IOException 
+	 * @throws DBException 
 	 */
-	public void closeAllConnections() {
+	public void closeAllConnections() throws Exception {
 		Connection connection;
 		while (conQ.peek()!=null){
 			connection=conQ.poll();
@@ -131,7 +135,7 @@ public class ConnPool {
 				connection.close();
 			} catch (SQLException e) {
 				//throw new CouponException("Unable to close all connections");
-				System.out.println(e.getMessage());
+				throw new DBException("Unable to close all connections");
 			}
 		}
 	}
